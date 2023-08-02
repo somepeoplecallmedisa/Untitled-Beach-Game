@@ -1,11 +1,10 @@
 {
-    "inventory": [
-        "the item"
-    ],
+    "inventory": [],
     "checkpoint_pos": [
         0,
         0
     ],
-    "items_delivered": [],
+    "items_delivered": [
+    ],
     "seashells": 0
 }

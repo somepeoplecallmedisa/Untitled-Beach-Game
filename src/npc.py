@@ -25,7 +25,10 @@ class TalkingNPC:
 
         self.state = EntityStates.IDLE
 
-        self.rect = pygame.Rect((obj.x, obj.y), self.animations[EntityStates.IDLE].frames[0].get_size())
+        # in case the object's size is incorrect
+        obj_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+        self.rect = self.animations[EntityStates.IDLE].frames[0].get_rect(midbottom=(obj_rect.midbottom))
+        
         self.pos = pygame.Vector2(self.rect.topleft)
 
         # alpha expansion for the text
@@ -86,10 +89,10 @@ class TalkingNPC:
 
     def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):
         self.animations[self.state].play(
-            screen, camera.apply_ceil(self.pos), event_info["dt"]
+            screen, camera.apply(self.pos), event_info["dt"]
         )
         text_pos = self.text_surf.get_rect(midbottom=(self.rect.centerx, self.rect.top - 2)).topleft
-        screen.blit(self.text_surf, camera.apply_ceil(text_pos))
+        screen.blit(self.text_surf, camera.apply(text_pos))
 
 
 class QuestGiverNPC(TalkingNPC):
