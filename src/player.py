@@ -77,7 +77,7 @@ class Player:
 
     def update(self, event_info: EventInfo):
         self.move(event_info)
-        if self.rect.y > 200:
+        if self.rect.y > 150:
             self.alive = False
 
     def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):

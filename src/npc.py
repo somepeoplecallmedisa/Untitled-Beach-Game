@@ -21,7 +21,7 @@ class TalkingNPC:
     def __init__(self, assets: dict, obj: TiledObject):
         self.animations = {
             EntityStates.IDLE: Animation(assets[f"{obj.name}_idle"], 0.1),
-            EntityStates.TALK: Animation(assets[f"{obj.name}_talk"], 0.2),
+            EntityStates.TALK: Animation(assets[f"{obj.name}_talk"], 0.6),
         }
 
         self.state = EntityStates.IDLE
@@ -73,7 +73,10 @@ class TalkingNPC:
         self.text_surf.set_alpha(int(self.alpha_expansion.number))
 
     def handle_states(self):
-        self.state = EntityStates.TALK if self.interacting else EntityStates.IDLE
+        if self.interacting and self.talking:
+            self.state = EntityStates.TALK
+        else:
+            self.state = EntityStates.IDLE
 
     def update(self, event_info: EventInfo, player: Player):
         self.interacting = self.rect.colliderect(player.rect)

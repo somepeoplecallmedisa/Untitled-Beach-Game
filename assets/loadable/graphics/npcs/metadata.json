@@ -1,0 +1,32 @@
+{
+    "girl_idle.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+        },
+    "girl_walk.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "girl_talk.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "boy_idle.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+        },
+    "boy_walk.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "boy_talk.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+    }
+}
