@@ -8,41 +8,60 @@ from engine.enums import EntityStates
 from engine.utils import Expansion, render_outline_text, reverse_animation
 from src.common import FONT_PATH
 from src.player import Player
+from typing import Sequence
 
 pygame.font.init()
 
 
 class TalkingNPC:
     TEXT_WRAPLENGTH = 196
+    FONT = pygame.Font(FONT_PATH, 8)
 
     def __init__(self, assets: dict, obj: TiledObject):
         self.animations = {
-            EntityStates.IDLE: Animation(assets[f"{obj.name}_idle"], 1),
+            EntityStates.IDLE: Animation(assets[f"{obj.name}_idle"], 0.1),
             EntityStates.TALK: Animation(assets[f"{obj.name}_talk"], 0.2),
         }
 
         self.state = EntityStates.IDLE
 
-        self.rect = pygame.Rect((obj.x, obj.y), (32, 32))
+        self.rect = pygame.Rect((obj.x, obj.y), self.animations[EntityStates.IDLE].frames[0].get_size())
         self.pos = pygame.Vector2(self.rect.topleft)
 
-        self.image = pygame.Surface((32, 32))
-        pygame.draw.rect(self.image, "green", (0, 0, 32, 32), 1)
+        # alpha expansion for the text
+        self.alpha_expansion = Expansion(0, 0, 255, 25)
 
-        self.render_text(obj.properties["text"])
+        # two newlines indicate a line said by the NPC
+        lines = obj.properties["text"].split("\n\n")
+        self.render_text_default(lines)
 
         self.interacting = False
+        self.talking = False
 
-    def render_text(self, text: str):
-        font = pygame.Font(FONT_PATH, 16)
-        self.text_surf = render_outline_text(text, font, "white")
+    def render_text_default(self, lines: Sequence[str]):
+        """
+        Renders the NPC's speech and inserts a default line at the start
+        """
+        self.lines = [render_outline_text(line, self.FONT, "white") for line in lines]
+        
+        # start at a default line
+        default_text = render_outline_text("Press E to talk", self.FONT, "white")
+        self.lines.insert(0, default_text)
 
-        text_rect = self.text_surf.get_rect(
-            midbottom=(self.rect.centerx, self.rect.top - 5)
-        )
-        self.text_pos = pygame.Vector2(text_rect.topleft)
+        self.line_index = 0
+        self.text_surf = self.lines[self.line_index]
 
-        self.alpha_expansion = Expansion(0, 0, 255, 25)
+        self.text_surf.set_alpha(int(self.alpha_expansion.number))
+
+    def render_text(self, lines: Sequence[str]):
+        """
+        Renders the NPC's speech and (no default line)
+        """
+        self.lines = [render_outline_text(line, self.FONT, "white") for line in lines]
+        
+        self.line_index = 0
+        self.text_surf = self.lines[self.line_index]
+
         self.text_surf.set_alpha(int(self.alpha_expansion.number))
 
     def handle_states(self):
@@ -51,6 +70,15 @@ class TalkingNPC:
     def update(self, event_info: EventInfo, player: Player):
         self.interacting = self.rect.colliderect(player.rect)
 
+        # handle E key presses, change the text lines
+        if self.interacting:
+            for event in event_info["events"]:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
+                    self.talking = True
+                    if self.line_index < len(self.lines) - 1:    
+                        self.line_index += 1
+                        self.text_surf = self.lines[self.line_index]
+
         self.alpha_expansion.update(self.interacting, event_info["dt"])
         self.text_surf.set_alpha(int(self.alpha_expansion.number))
 
@@ -58,9 +86,10 @@ class TalkingNPC:
 
     def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):
         self.animations[self.state].play(
-            screen, camera.apply(self.pos), event_info["dt"]
+            screen, camera.apply_ceil(self.pos), event_info["dt"]
         )
-        screen.blit(self.text_surf, camera.apply(self.text_pos))
+        text_pos = self.text_surf.get_rect(midbottom=(self.rect.centerx, self.rect.top - 2)).topleft
+        screen.blit(self.text_surf, camera.apply_ceil(text_pos))
 
 
 class QuestGiverNPC(TalkingNPC):
@@ -72,8 +101,8 @@ class QuestGiverNPC(TalkingNPC):
     def update(self, event_info: EventInfo, player: Player):
         super().update(event_info, player)
 
-        if self.interacting and self.item not in player.inventory:
-            player.inventory.append(self.item)
+        if self.talking and self.item not in (*player.settings["inventory"], *player.settings["items_delivered"]):
+            player.settings["inventory"].append(self.item)
 
 
 class QuestReceiverNPC(TalkingNPC):
@@ -82,17 +111,27 @@ class QuestReceiverNPC(TalkingNPC):
 
         self.item = obj.properties["item"]
         self.text_if_item = obj.properties["text_if_item"]
-        self.text_rendered = False
+        self.check_finished = False
 
     def update(self, event_info: EventInfo, player: Player):
         super().update(event_info, player)
 
+        # if the quest was already finished
+        if not self.talking and self.item in player.settings["items_delivered"]:
+            lines = self.text_if_item.split("\n\n")
+            self.render_text(lines)
+            # we only need to check for this once
+            self.check_finished = True
+
         # if player finished the quest and the text
         # hasn't been rendered already
         if (
-            self.interacting
-            and self.item in player.inventory
-            and not self.text_rendered
+            self.talking
+            and self.item in player.settings["inventory"]
         ):
-            self.text_rendered = True
-            self.render_text(self.text_if_item)
+            lines = self.text_if_item.split("\n\n")
+            self.render_text(lines)
+
+            player.settings["inventory"].remove(self.item)
+            player.settings["items_delivered"].append(self.item)
+            player.settings["seashells"] += 1

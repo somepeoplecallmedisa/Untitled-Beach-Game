@@ -16,7 +16,7 @@ class Player:
         self.animations = {
             "walk_left": Animation(assets["player_walk"], 0.8),
             "idle_left": Animation(assets["player_idle"], 0.05),
-            "jump_left": Animation(assets["player_jump"], 1),
+            "jump_left": Animation(assets["player_jump"], 0),
         }
         self.animations |= {
             "walk_right": reverse_animation(self.animations["walk_left"]),
@@ -28,9 +28,9 @@ class Player:
 
         self.rect = assets["player_idle"][0].get_frect()
         self.vel = pygame.Vector2()
-        self.speed = 8
-        self.gravity = 7
-        self.jump_height = 30
+        self.speed = 4
+        self.gravity = 3.5
+        self.jump_height = 15
         self.jumping = False
         self.alive = True
 
@@ -38,18 +38,13 @@ class Player:
 
     def load_save(self):
         with open(self.SAVE_PATH, "r") as f:
-            settings = json.loads(f.read())
-            self.inventory = settings["inventory"]
-            self.rect.topleft = settings["checkpoint_pos"]
-            self.checkpoint_pos = settings["checkpoint_pos"]
+            self.settings = json.loads(f.read())
+            self.rect.topleft = self.settings["checkpoint_pos"]
+            self.checkpoint_pos = self.settings["checkpoint_pos"]
 
     def dump_save(self):
         with open(self.SAVE_PATH, "w") as f:
-            settings = {
-                "inventory": self.inventory,
-                "checkpoint_pos": self.checkpoint_pos,
-            }
-            f.write(json.dumps(settings, indent=4))
+            f.write(json.dumps(self.settings, indent=4))
 
     def move(self, event_info: EventInfo):
         dt = event_info["dt"]

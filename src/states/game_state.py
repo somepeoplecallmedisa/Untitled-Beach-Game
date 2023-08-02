@@ -46,19 +46,20 @@ class BackgroundStage(GameInit):
     def __init__(self):
         super().__init__()
 
-        self.background = ParallaxBackground(
-            [
-                (self.assets["bg0"], 0.025),
-                (self.assets["bg1"], 0.075),
-                (self.assets["bg2"], 0.15),
-                (self.assets["bg3"], 0.2),
-            ]
-        )
+        # self.background = ParallaxBackground(
+        #     [
+        #         (self.assets["bg0"], 0.025),
+        #         (self.assets["bg1"], 0.075),
+        #         (self.assets["bg2"], 0.15),
+        #         (self.assets["bg3"], 0.2),
+        #     ]
+        # )
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
 
-        self.background.draw(screen, self.camera.scroll)
+        # self.background.draw(screen, self.camera.scroll)
+        screen.fill("black")
 
 
 class TileStage(BackgroundStage):

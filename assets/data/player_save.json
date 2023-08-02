@@ -1,9 +1,11 @@
 {
     "inventory": [
-        "cool_item"
+        "the item"
     ],
     "checkpoint_pos": [
-        702,
-        51.86070251464844
-    ]
+        0,
+        0
+    ],
+    "items_delivered": [],
+    "seashells": 0
 }
