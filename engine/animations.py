@@ -1,0 +1,77 @@
+from typing import Sequence
+
+import pygame
+
+from engine._types import Position
+
+
+class Animation:
+    def __init__(
+        self,
+        frames: Sequence[pygame.Surface],
+        speed: float,
+    ):
+        self.frames = frames
+        self.speed = speed
+
+        self.f_len = len(self.frames)
+
+        self.index = 0
+        self.animated_once = False
+
+    def update(self, dt: float):
+        self.index += self.speed * dt
+
+        if self.index >= self.f_len:
+            self.index = 0
+            self.animated_once = True
+
+    def draw(self, screen: pygame.Surface, pos: Position):
+        frame = self.frames[int(self.index)]
+
+        screen.blit(frame, pos)
+
+    def play(self, screen: pygame.Surface, pos: Position, dt: float):
+        self.update(dt)
+        self.draw(screen, pos)
+
+
+class FadeTransition:
+    def __init__(self, fade_in: bool, fade_speed: float, size: tuple[int, int]):
+        self.fade_in = fade_in
+        self.init_fade = fade_in
+        self.fade_speed = fade_speed
+        self.image = pygame.Surface(size)
+
+        self.event = False
+        self.alpha = 255 if fade_in else 0
+        self.image.set_alpha(self.alpha)
+
+    def _handle_fade_in(self, dt: float):
+        if self.alpha > 0:
+            self.alpha -= self.fade_speed * dt
+            self.event = False
+        else:
+            self.alpha = 0
+            if not self.init_fade:
+                self.event = True
+
+    def _handle_fade_out(self, dt: float):
+        if self.alpha < 255:
+            self.alpha += self.fade_speed * dt
+            self.event = False
+        else:
+            self.alpha = 255
+            if self.init_fade:
+                self.event = True
+
+    def update(self, dt: float) -> None:
+        if self.fade_in:
+            self._handle_fade_in(dt)
+        else:
+            self._handle_fade_out(dt)
+
+        self.image.set_alpha(int(self.alpha))
+
+    def draw(self, screen: pygame.Surface) -> None:
+        screen.blit(self.image, (0, 0))

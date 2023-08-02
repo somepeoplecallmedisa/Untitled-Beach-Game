@@ -1,0 +1,37 @@
+{
+    "player_idle.png": {
+        "sprite_sheet": [40, 38],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "player_jump.png": {
+        "sprite_sheet": [40, 38],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "player_walk.png": {
+        "sprite_sheet": [40, 38],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "bg0.png": {
+        "sprite_sheet": null,
+        "convert_alpha": false,
+        "states": ["game", "menu"]
+    },
+    "bg1.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["game", "menu"]
+    },
+    "bg2.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["game", "menu"]
+    },
+    "bg3.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["game", "menu"]
+    }
+}

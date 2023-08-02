@@ -1,0 +1,10 @@
+{
+    "button_high.mp3": {
+        "volume": 0.7,
+        "states": ["game", "menu"]
+    },
+    "button_low.mp3": {
+        "volume": 0.7,
+        "states": ["game", "menu"]
+    }
+}
