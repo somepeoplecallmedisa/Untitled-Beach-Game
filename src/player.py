@@ -40,7 +40,6 @@ class Player:
         with open(self.SAVE_PATH, "r") as f:
             self.settings = json.loads(f.read())
             self.rect.topleft = self.settings["checkpoint_pos"]
-            self.checkpoint_pos = self.settings["checkpoint_pos"]
 
     def dump_save(self):
         with open(self.SAVE_PATH, "w") as f:
@@ -63,16 +62,22 @@ class Player:
                 self.vel.x = -self.speed
 
         self.vel.y += self.gravity * dt
-        if keys[pygame.K_SPACE] and not self.jumping:
-            self.jumping = True
-            self.vel.y = -self.jump_height
+
+        for event in event_info["events"]:
+            if (
+                event.type == pygame.KEYDOWN
+                and event.key == pygame.K_SPACE
+                and not self.jumping
+            ):
+                self.jumping = True
+                self.vel.y = -self.jump_height
 
         if self.jumping:
             self.state = EntityStates.JUMP
 
     def update(self, event_info: EventInfo):
         self.move(event_info)
-        if self.rect.y > 400:
+        if self.rect.y > 200:
             self.alive = False
 
     def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):

@@ -39,7 +39,7 @@ class BackgroundStage(MenuInit):
                 (self.assets["bg0"], 0.05),
                 (self.assets["bg1"], 0.15),
                 (self.assets["bg2"], 0.3),
-                (self.assets["bg3"], 0.4),
+                # (self.assets["bg3"], 0.4),
             ]
         )
         self.scroll = pygame.Vector2()

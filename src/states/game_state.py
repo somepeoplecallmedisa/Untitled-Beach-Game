@@ -46,20 +46,19 @@ class BackgroundStage(GameInit):
     def __init__(self):
         super().__init__()
 
-        # self.background = ParallaxBackground(
-        #     [
-        #         (self.assets["bg0"], 0.025),
-        #         (self.assets["bg1"], 0.075),
-        #         (self.assets["bg2"], 0.15),
-        #         (self.assets["bg3"], 0.2),
-        #     ]
-        # )
+        self.background = ParallaxBackground(
+            [
+                (self.assets["bg0"], 0.025),
+                (self.assets["bg1"], 0.075),
+                (self.assets["bg2"], 0.15),
+                # (self.assets["bg3"], 0.2),
+            ]
+        )
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
 
-        # self.background.draw(screen, self.camera.scroll)
-        screen.fill("black")
+        self.background.draw(screen, self.camera.scroll)
 
 
 class TileStage(BackgroundStage):
@@ -91,7 +90,7 @@ class TileStage(BackgroundStage):
                 elif entity.vel.y < 0:
                     entity.rect.top = tile.bottom
                     entity.vel.y = 0
-        
+
         # disables mid-air jumps
         if entity.vel.y > 0:
             entity.jumping = True
@@ -163,7 +162,10 @@ class CheckpointStage(PlayerStage):
                 # using checkpoint.x instead of self.player.rect.x
                 # because if we do the latter the player would spawn
                 # at an edge of a tile, which isn't ideal
-                self.player.checkpoint_pos = (checkpoint.x, self.player.rect.y)
+                self.player.settings["checkpoint_pos"] = (
+                    checkpoint.x,
+                    self.player.rect.y,
+                )
 
 
 class CameraStage(CheckpointStage):
