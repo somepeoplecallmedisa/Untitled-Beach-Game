@@ -242,11 +242,11 @@ class PauseStage(UIStage):
 
         # placeholder buttons
         button_colors = {
-            "static": "grey40",
-            "hover": "grey20",
-            "text": "black",
+            "static": (109, 117, 141),
+            "hover": (139, 147, 175),
+            "text": (6, 6, 8),
         }
-        size = pygame.Vector2(96, 32)
+        size = pygame.Vector2(64, 16)
         button_texts = ("save & exit", "main menu", "continue")
         self.buttons = [
             Button(

@@ -39,7 +39,7 @@ class BackgroundStage(MenuInit):
                 (self.assets["bg0"], 0.05),
                 (self.assets["bg1"], 0.15),
                 (self.assets["bg2"], 0.3),
-                # (self.assets["bg3"], 0.4),
+                (self.assets["bg3"], 0.4),
             ]
         )
         self.scroll = pygame.Vector2()
@@ -63,11 +63,11 @@ class ButtonStage(BackgroundStage):
         super().__init__()
 
         button_colors = {
-            "static": "grey40",
-            "hover": "grey20",
-            "text": "black",
+            "static": (109, 117, 141),
+            "hover": (139, 147, 175),
+            "text": (6, 6, 8),
         }
-        size = pygame.Vector2(96, 32)
+        size = pygame.Vector2(64, 16)
         button_texts = ("exit", "play")
         self.buttons = [
             Button(
@@ -115,7 +115,6 @@ class TransitionStage(ButtonStage):
             self.transition.fade_in = False
             if self.transition.event:
                 self.next_state = self._next_state
-                self.assets["grey"].stop()
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
