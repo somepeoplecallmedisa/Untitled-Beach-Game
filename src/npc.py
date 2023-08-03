@@ -24,7 +24,7 @@ class TalkingNPC:
         }
         self.animations |= {
             "right_idle": reverse_animation(self.animations["left_idle"]),
-            "right_talk": reverse_animation(self.animations["left_talk"])
+            "right_talk": reverse_animation(self.animations["left_talk"]),
         }
 
         self.state = "left_idle"
@@ -118,8 +118,10 @@ class QuestGiverNPC(TalkingNPC):
         self.item = obj.properties["item"]
         self.text_if_item = obj.properties["text_if_item"]
         self.exclamation = assets["exclamation"]
-        self.exclamation_pos = self.exclamation.get_rect(midbottom=(self.rect.centerx, self.rect.top - 2))
-        
+        self.exclamation_pos = self.exclamation.get_rect(
+            midbottom=(self.rect.centerx, self.rect.top - 2)
+        )
+
         self.quest_done = False
         self.check_finished = False
         self.quest_ongoing = False
@@ -146,7 +148,7 @@ class QuestGiverNPC(TalkingNPC):
         # the exclamation point should be in the background
         if not self.quest_done and not self.quest_ongoing and not self.talking:
             screen.blit(self.exclamation, camera.apply(self.exclamation_pos))
-        
+
         super().draw(screen, camera, event_info)
 
 

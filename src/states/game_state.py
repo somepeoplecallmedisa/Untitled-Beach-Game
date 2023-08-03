@@ -7,12 +7,12 @@ from engine.background import ParallaxBackground
 from engine.button import Button
 from engine.camera import Camera
 from engine.enums import GameStates
+from engine.particles import FadingOutText
 from engine.tilemap import TileLayerMap
 from engine.utils import get_neighboring_tiles, pixel_to_tile, render_outline_text
-from src.common import FADE_SPEED, HEIGHT, WIDTH, FONT_PATH
+from src.common import FADE_SPEED, FONT_PATH, HEIGHT, WIDTH
 from src.npc import QuestGiverNPC, QuestReceiverNPC, TalkingNPC
 from src.player import Player
-from engine.particles import FadingOutText
 
 
 class GameInit:
@@ -180,26 +180,38 @@ class CameraStage(CheckpointStage):
 class UIStage(CameraStage):
     def __init__(self):
         super().__init__()
-        
+
         self.text_particles = []
 
         self.seashell_icon = self.assets["seashell"]
         self.seashell_font = pygame.Font(FONT_PATH, 8)
         self.last_amount = self.player.settings["seashells"]
-        self.seashell_text = render_outline_text(str(self.last_amount), self.seashell_font, "white")
-        
+        self.seashell_text = render_outline_text(
+            str(self.last_amount), self.seashell_font, "white"
+        )
+
         seashell_icon_rect = self.seashell_icon.get_rect(bottomleft=(2, HEIGHT - 2))
         self.seashell_icon_pos = seashell_icon_rect.topleft
-        self.seashell_text_pos = self.seashell_text.get_rect(midleft=(seashell_icon_rect.right + 2, seashell_icon_rect.centery))
-       
+        self.seashell_text_pos = self.seashell_text.get_rect(
+            midleft=(seashell_icon_rect.right + 2, seashell_icon_rect.centery)
+        )
+
         # quest notifications
-        self.new_quest_surf = render_outline_text("New quest!", self.seashell_font, "white")
+        self.new_quest_surf = render_outline_text(
+            "New quest!", self.seashell_font, "white"
+        )
         bottomright = (WIDTH - 2, HEIGHT)
-        self.new_quest_pos = self.new_quest_surf.get_rect(bottomright=bottomright).topleft
-        
-        self.quest_finished_surf = render_outline_text("Quest finished!", self.seashell_font, "white")
+        self.new_quest_pos = self.new_quest_surf.get_rect(
+            bottomright=bottomright
+        ).topleft
+
+        self.quest_finished_surf = render_outline_text(
+            "Quest finished!", self.seashell_font, "white"
+        )
         bottomright = (WIDTH - 2, HEIGHT)
-        self.quest_finished_pos = self.quest_finished_surf.get_rect(bottomright=bottomright).topleft
+        self.quest_finished_pos = self.quest_finished_surf.get_rect(
+            bottomright=bottomright
+        ).topleft
 
     def update(self, event_info: EventInfo):
         super().update(event_info)
@@ -208,27 +220,35 @@ class UIStage(CameraStage):
         # if the amount of seashells changed
         # this is done so that we don't render text every frame
         if amount != self.last_amount:
-            self.seashell_text = render_outline_text(str(amount), self.seashell_font, "white")
+            self.seashell_text = render_outline_text(
+                str(amount), self.seashell_font, "white"
+            )
             self.last_amount = amount
 
-            self.text_particles.append(FadingOutText(self.quest_finished_surf.copy(), self.quest_finished_pos, 3, 230))
+            self.text_particles.append(
+                FadingOutText(
+                    self.quest_finished_surf.copy(), self.quest_finished_pos, 3, 230
+                )
+            )
 
         # quest notifications
         if self.player.new_quest:
-            self.text_particles.append(FadingOutText(self.new_quest_surf.copy(), self.new_quest_pos, 3, 230))
+            self.text_particles.append(
+                FadingOutText(self.new_quest_surf.copy(), self.new_quest_pos, 3, 230)
+            )
 
         for particle in self.text_particles:
             particle.update(event_info["dt"])
-        
+
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
 
         screen.blit(self.seashell_icon, self.seashell_icon_pos)
         screen.blit(self.seashell_text, self.seashell_text_pos)
-        
+
         for particle in self.text_particles:
             particle.draw(screen)
-            
+
             if not particle.alive:
                 self.text_particles.remove(particle)
 

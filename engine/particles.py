@@ -1,6 +1,8 @@
 import pygame
+
 from engine._types import Position
 from engine.camera import Camera
+
 
 class FadingOutText:
     def __init__(
