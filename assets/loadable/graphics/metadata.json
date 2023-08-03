@@ -28,5 +28,10 @@
         "sprite_sheet": null,
         "convert_alpha": true,
         "states": ["game", "menu"]
+    },
+    "exclamation.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["game"]
     }
 }

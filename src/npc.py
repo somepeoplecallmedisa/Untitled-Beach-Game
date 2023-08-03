@@ -110,15 +110,37 @@ class QuestGiverNPC(TalkingNPC):
         super().__init__(assets, obj)
 
         self.item = obj.properties["item"]
+        self.text_if_item = obj.properties["text_if_item"]
+        self.exclamation = assets["exclamation"]
+        self.exclamation_pos = self.exclamation.get_rect(midbottom=(self.rect.centerx, self.rect.top - 2))
+        
+        self.quest_done = False
+        self.check_finished = False
+        self.quest_ongoing = False
 
     def update(self, event_info: EventInfo, player: Player):
         super().update(event_info, player)
 
-        if self.talking and self.item not in (
-            *player.settings["inventory"],
-            *player.settings["items_delivered"],
-        ):
+        self.quest_done = self.item in player.settings["items_delivered"]
+        self.quest_ongoing = self.item in player.settings["inventory"]
+
+        # if the quest was already done
+        if self.quest_done and not self.check_finished:
+            # we only need to execute this once
+            self.check_finished = True
+            lines = self.text_if_item.split("\n\n")
+            self.render_text_default(lines)
+
+        # if the quest is starting
+        elif self.talking and not self.quest_ongoing and not self.quest_done:
             player.settings["inventory"].append(self.item)
+
+    def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):
+        # the exclamation point should be in the background
+        if not self.quest_done and not self.quest_ongoing and not self.talking:
+            screen.blit(self.exclamation, camera.apply(self.exclamation_pos))
+        
+        super().draw(screen, camera, event_info)
 
 
 class QuestReceiverNPC(TalkingNPC):
@@ -132,10 +154,13 @@ class QuestReceiverNPC(TalkingNPC):
     def update(self, event_info: EventInfo, player: Player):
         super().update(event_info, player)
 
+        self.quest_done = self.item in player.settings["items_delivered"]
+        self.quest_ongoing = self.item in player.settings["inventory"]
+
         # if the quest was already finished
-        if not self.talking and self.item in player.settings["items_delivered"]:
+        if not self.talking and self.quest_done and not self.check_finished:
             lines = self.text_if_item.split("\n\n")
-            self.render_text(lines)
+            self.render_text_default(lines)
             # we only need to check for this once
             self.check_finished = True
 

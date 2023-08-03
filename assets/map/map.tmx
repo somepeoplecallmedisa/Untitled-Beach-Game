@@ -127,6 +127,7 @@
     <property name="text">Hello! I have this item...
 
 Can you please deliver it?</property>
+    <property name="text_if_item" value="Thanks for delivering the item!!"/>
    </properties>
   </object>
   <object id="7" name="girl" type="quest_receiver_npc" x="208" y="0" width="16" height="16">
@@ -142,6 +143,9 @@ Thank you!</property>
    <properties>
     <property name="item" value="lost_cat"/>
     <property name="text" value="I think I've lost my cat... Last time I've seen him, he was trying to climb a roof..."/>
+    <property name="text_if_item">Oh my god!!!
+
+You found him!</property>
    </properties>
   </object>
   <object id="17" name="cat" type="quest_receiver_npc" x="880" y="0" width="16" height="16">
