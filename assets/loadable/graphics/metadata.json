@@ -33,5 +33,10 @@
         "sprite_sheet": null,
         "convert_alpha": true,
         "states": ["game"]
+    },
+    "seashell.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["game"]
     }
 }

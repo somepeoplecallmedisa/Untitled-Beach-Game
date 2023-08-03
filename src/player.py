@@ -34,6 +34,8 @@ class Player:
         self.jumping = False
         self.alive = True
 
+        self.new_quest = False
+
         self.load_save()
 
     def load_save(self):
@@ -76,9 +78,11 @@ class Player:
             self.state = EntityStates.JUMP
 
     def update(self, event_info: EventInfo):
-        self.move(event_info)
         if self.rect.y > 150:
             self.alive = False
+            self.vel.x = 0
+        else:
+            self.move(event_info)
 
     def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):
         animation = self.animations[f"{self.state.value}_{self.facing}"]

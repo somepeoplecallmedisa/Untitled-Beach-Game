@@ -118,7 +118,7 @@
  <objectgroup id="3" name="npcs">
   <object id="5" name="boy" type="talking_npc" x="372" y="16" width="16" height="16">
    <properties>
-    <property name="text" value="Hello!"/>
+    <property name="text" value="Kinda cloudy out here..."/>
    </properties>
   </object>
   <object id="6" name="boy" type="quest_giver_npc" x="80" y="64" width="16" height="16">

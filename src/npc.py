@@ -140,6 +140,7 @@ class QuestGiverNPC(TalkingNPC):
         # if the quest is starting
         elif self.talking and not self.quest_ongoing and not self.quest_done:
             player.settings["inventory"].append(self.item)
+            player.new_quest = True
 
     def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):
         # the exclamation point should be in the background
