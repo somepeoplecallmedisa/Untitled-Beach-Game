@@ -6,7 +6,6 @@ from pytmx import TiledObject
 from engine._types import EventInfo, Position
 from engine.animations import Animation
 from engine.camera import Camera
-from engine.enums import EntityStates
 from engine.utils import Expansion, render_outline_text, reverse_animation
 from src.common import FONT_PATH
 from src.player import Player
@@ -20,16 +19,20 @@ class TalkingNPC:
 
     def __init__(self, assets: dict, obj: TiledObject):
         self.animations = {
-            EntityStates.IDLE: Animation(assets[f"{obj.name}_idle"], 0.1),
-            EntityStates.TALK: Animation(assets[f"{obj.name}_talk"], 0.6),
+            "left_idle": Animation(assets[f"{obj.name}_idle"], 0.1),
+            "left_talk": Animation(assets[f"{obj.name}_talk"], 0.6),
+        }
+        self.animations |= {
+            "right_idle": reverse_animation(self.animations["left_idle"]),
+            "right_talk": reverse_animation(self.animations["left_talk"])
         }
 
-        self.state = EntityStates.IDLE
+        self.state = "left_idle"
 
         # in case the object's size is incorrect
         obj_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
         self.rect = (
-            self.animations[EntityStates.IDLE]
+            self.animations["left_idle"]
             .frames[0]
             .get_rect(midbottom=(obj_rect.midbottom))
         )
@@ -72,11 +75,14 @@ class TalkingNPC:
 
         self.text_surf.set_alpha(int(self.alpha_expansion.number))
 
-    def handle_states(self):
-        if self.interacting and self.talking:
-            self.state = EntityStates.TALK
-        else:
-            self.state = EntityStates.IDLE
+    def handle_states(self, player: Player):
+        direction = "left"
+        if player.rect.x > self.pos.x:
+            direction = "right"
+
+        action = "talk" if self.interacting and self.talking else "idle"
+
+        self.state = f"{direction}_{action}"
 
     def update(self, event_info: EventInfo, player: Player):
         self.interacting = self.rect.colliderect(player.rect)
@@ -93,7 +99,7 @@ class TalkingNPC:
         self.alpha_expansion.update(self.interacting, event_info["dt"])
         self.text_surf.set_alpha(int(self.alpha_expansion.number))
 
-        self.handle_states()
+        self.handle_states(player)
 
     def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):
         self.animations[self.state].play(
