@@ -5,4 +5,4 @@ TILE_SIZE = 16
 
 FADE_SPEED = 27
 
-FONT_PATH = "assets/loadable/graphics/PixelMillenium.ttf"
+FONT_PATH = "assets/loadable/graphics/Minecraftia-Regular.ttf"
