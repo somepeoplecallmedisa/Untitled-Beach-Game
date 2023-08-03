@@ -228,6 +228,9 @@ class UIStage(CameraStage):
         
         for particle in self.text_particles:
             particle.draw(screen)
+            
+            if not particle.alive:
+                self.text_particles.remove(particle)
 
 
 class PauseStage(UIStage):

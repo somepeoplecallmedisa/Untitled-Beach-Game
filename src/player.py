@@ -78,6 +78,8 @@ class Player:
             self.state = EntityStates.JUMP
 
     def update(self, event_info: EventInfo):
+        # the player shouldn't be able to walk outside the map
+        self.rect.x = max(0, self.rect.x)
         if self.rect.y > 150:
             self.alive = False
             self.vel.x = 0
