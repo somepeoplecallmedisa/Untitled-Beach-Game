@@ -18,7 +18,6 @@ from src.player import Player
 class GameInit:
     def __init__(self):
         self.assets = load_assets("game")
-        print(self.assets)
         self.player = Player(self.assets)
 
         self.tilemap = TileLayerMap("assets/map/map.tmx")
@@ -48,14 +47,30 @@ class BackgroundStage(GameInit):
     def __init__(self):
         super().__init__()
 
-        self.background = ParallaxBackground(
+        self.suburb_background = ParallaxBackground(
             [
                 (self.assets["bg0"], 0.025),
                 (self.assets["bg1"], 0.075),
                 (self.assets["bg2"], 0.15),
-                # (self.assets["bg3"], 0.2),
             ]
         )
+        self.downtown_background = ParallaxBackground(
+            [
+                (self.assets["bg0"], 0.025),
+                (self.assets["bg1"], 0.075),
+                (self.assets["bg4"], 0.2),
+            ]
+        )
+
+        self.background = self.suburb_background
+
+    def update(self, event_info: EventInfo):
+        super().update(event_info)
+
+        if self.player.rect.x <= 124.5 * 16:
+            self.background = self.suburb_background
+        elif self.player.rect.x >= 124.5 * 16:
+            self.background = self.downtown_background
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
@@ -176,6 +191,8 @@ class CameraStage(CheckpointStage):
         super().update(event_info)
 
         self.camera.adjust_to(event_info["dt"], self.player.rect)
+
+
 
 
 class UIStage(CameraStage):
@@ -322,7 +339,40 @@ class PauseStage(UIStage):
                 button.draw(screen)
 
 
-class TransitionStage(PauseStage):
+class OSTStage(PauseStage):
+    def __init__(self):
+        super().__init__()
+
+        self.ost = self.assets["ost"]
+        self.pos = 0
+        pygame.mixer.music.load(self.ost)
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.4)
+    
+    def start_ost(self, ost):
+        self.pos += pygame.mixer.music.get_pos()
+        pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
+        pygame.mixer.music.load(ost)
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.rewind()
+        pygame.mixer.music.set_pos(self.pos / 1000)
+
+    def update(self, event_info: EventInfo):
+        super().update(event_info)
+
+        if self.pause_active and self.ost == self.assets["ost"]:
+            self.ost = self.assets["ost_quiet"]
+            self.start_ost(self.ost)
+            pygame.mixer.music.set_volume(0.7)
+        
+        elif not self.pause_active and self.ost == self.assets["ost_quiet"]:
+            self.ost = self.assets["ost"]
+            self.start_ost(self.ost)
+            pygame.mixer.music.set_volume(0.4)
+            
+
+class TransitionStage(OSTStage):
     def __init__(self):
         super().__init__()
 

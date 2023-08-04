@@ -30,12 +30,12 @@
         "bgm": false
     },
     "ost.mp3": {
-        "volume": 0.9,
+        "volume": 0.5,
         "states": ["game"],
         "bgm": true
     },
     "ost_quiet.mp3": {
-        "volume": 0.9,
+        "volume": 0.5,
         "states": ["game", "menu"],
         "bgm": true
     }
