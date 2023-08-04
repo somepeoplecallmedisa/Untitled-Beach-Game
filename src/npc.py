@@ -73,7 +73,7 @@ class TalkingNPC:
         self.line_index = 0
         self.text_surf = self.lines[self.line_index]
 
-        self.text_surf.set_alpha(int(self.alpha_expansion.number))
+        self.text_surf[0].set_alpha(int(self.alpha_expansion.number))
 
     def handle_states(self, player: Player):
         direction = "left"
