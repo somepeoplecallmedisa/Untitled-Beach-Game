@@ -8,19 +8,19 @@
         "states": ["game", "menu"]
     },
     "jump_1.mp3": {
-        "volume": 0.7,
+        "volume": 0.3,
         "states": ["game"]
     },
     "jump_2.mp3": {
-        "volume": 0.7,
+        "volume": 0.3,
         "states": ["game"]
     },
     "jump_3.mp3": {
-        "volume": 0.7,
+        "volume": 0.3,
         "states": ["game"]
     },
     "jump_4.mp3": {
-        "volume": 0.7,
+        "volume": 0.3,
         "states": ["game"]
     }
 }

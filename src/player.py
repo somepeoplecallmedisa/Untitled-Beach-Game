@@ -7,6 +7,7 @@ from engine.animations import Animation
 from engine.camera import Camera
 from engine.enums import EntityStates
 from engine.utils import reverse_animation
+import itertools
 
 
 class Player:
@@ -25,6 +26,10 @@ class Player:
         }
         self.facing = "right"
         self.state = EntityStates.IDLE
+
+        jump_sfx_arr = [assets[f"jump_{i}"] for i in range(1, 5)]
+        self.jump_cycle = itertools.cycle(jump_sfx_arr)
+        self.jump_sfx = next(self.jump_cycle)
 
         self.rect = assets["player_idle"][0].get_frect()
         self.vel = pygame.Vector2()
@@ -74,6 +79,9 @@ class Player:
                 self.jumping = True
                 self.vel.y = -self.jump_height
 
+                self.jump_sfx = next(self.jump_cycle)
+                self.jump_sfx.play()
+                
         if self.jumping:
             self.state = EntityStates.JUMP
 
