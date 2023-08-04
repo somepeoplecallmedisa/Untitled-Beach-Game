@@ -95,6 +95,8 @@ class TalkingNPC:
                     if self.line_index < len(self.lines) - 1:
                         self.line_index += 1
                         self.text_surf = self.lines[self.line_index]
+        else:
+            self.talking = False
 
         self.alpha_expansion.update(self.interacting, event_info["dt"])
         self.text_surf[0].set_alpha(int(self.alpha_expansion.number))
@@ -179,10 +181,12 @@ class QuestReceiverNPC(TalkingNPC):
 
         # if player finished the quest and the text
         # hasn't been rendered already
-        if self.talking and self.item in player.settings["inventory"]:
+        if self.interacting and self.item in player.settings["inventory"]:
             lines = self.text_if_item.split("\n\n")
             self.render_text(lines)
 
-            player.settings["inventory"].remove(self.item)
-            player.settings["items_delivered"].append(self.item)
-            player.settings["seashells"] += 1
+            if self.talking:
+                player.settings["inventory"].remove(self.item)
+                player.settings["items_delivered"].append(self.item)
+                player.settings["seashells"] += 1
+

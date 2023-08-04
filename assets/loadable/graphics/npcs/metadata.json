@@ -35,7 +35,7 @@
         "states": ["game"]
     },
     "girl_redhead_talk.png": {
-        "sprite_sheet": [14, 15],
+        "sprite_sheet": [14, 14],
         "convert_alpha": true,
         "states": ["game"]
     },

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="256" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="25">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="256" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="31">
  <tileset firstgid="1" source="test.tsx"/>
  <tileset firstgid="145" source="houses.tsx"/>
  <layer id="7" name="decorations bg" width="256" height="20">
@@ -84,6 +84,10 @@
   <object id="22" type="checkpoint" x="1328" y="97.1668" width="16" height="62.6663"/>
   <object id="23" type="checkpoint" x="1040" y="112" width="16" height="47.6663"/>
   <object id="24" type="checkpoint" x="2192.5" y="96.5" width="16" height="63.25"/>
+  <object id="25" type="checkpoint" x="2640.27" y="95.3636" width="16" height="64"/>
+  <object id="26" type="checkpoint" x="3039.82" y="95.4545" width="16" height="64"/>
+  <object id="27" type="checkpoint" x="3279.63" y="96" width="16" height="64"/>
+  <object id="28" type="checkpoint" x="3551.77" y="127.682" width="16" height="64"/>
  </objectgroup>
  <objectgroup id="3" name="npcs">
   <object id="5" name="boy" type="talking_npc" x="372" y="80" width="16" height="16">
@@ -132,6 +136,32 @@ You found him!</property>
 There's actually no way up from here...
 
 I'm kinda stuck</property>
+   </properties>
+  </object>
+  <object id="29" name="girl_redhead" type="quest_receiver_npc" x="2560" y="144" width="16" height="16">
+   <properties>
+    <property name="item" value="message_from_the_sewer"/>
+    <property name="text">I've heard, a guy got stuck in the sewer.
+
+A pathetic place to be stuck, if you ask me.</property>
+    <property name="text_if_item">Huh? You found him?
+
+Is he okay??</property>
+   </properties>
+  </object>
+  <object id="30" name="boy_blue" type="quest_giver_npc" x="3080" y="240" width="16" height="16">
+   <properties>
+    <property name="item" value="message_from_the_sewer"/>
+    <property name="text">Hey!
+
+What?
+
+There's a fire-haired girl insulting my sewer-climbing abilities?
+
+Well, go tell her to mind her business!</property>
+    <property name="text_if_item">Hey!
+
+You told her? Got 'em!</property>
    </properties>
   </object>
  </objectgroup>
