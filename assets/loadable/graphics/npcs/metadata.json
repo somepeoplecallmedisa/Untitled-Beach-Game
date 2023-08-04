@@ -29,6 +29,26 @@
         "convert_alpha": true,
         "states": ["game"]
     },
+    "girl_redhead_idle.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "girl_redhead_talk.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "boy_blue_idle.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "boy_blue_talk.png": {
+        "sprite_sheet": [14, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
     "cat_idle.png": {
         "sprite_sheet": [13, 12],
         "convert_alpha": true,

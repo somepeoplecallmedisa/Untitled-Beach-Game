@@ -62,7 +62,7 @@ class TalkingNPC:
         self.line_index = 0
         self.text_surf = self.lines[self.line_index]
 
-        self.text_surf.set_alpha(int(self.alpha_expansion.number))
+        self.text_surf[0].set_alpha(int(self.alpha_expansion.number))
 
     def render_text(self, lines: Sequence[str]):
         """
@@ -97,7 +97,7 @@ class TalkingNPC:
                         self.text_surf = self.lines[self.line_index]
 
         self.alpha_expansion.update(self.interacting, event_info["dt"])
-        self.text_surf.set_alpha(int(self.alpha_expansion.number))
+        self.text_surf[0].set_alpha(int(self.alpha_expansion.number))
 
         self.handle_states(player)
 
@@ -105,10 +105,14 @@ class TalkingNPC:
         self.animations[self.state].play(
             screen, camera.apply(self.pos), event_info["dt"]
         )
-        text_pos = self.text_surf.get_rect(
+        text_pos = self.text_surf[0].get_rect(
             midbottom=(self.rect.centerx, self.rect.top - 2)
         ).topleft
-        screen.blit(self.text_surf, camera.apply(text_pos))
+        
+        self.text_surf[1].set_alpha(min(175, self.alpha_expansion.number))
+
+        screen.blit(self.text_surf[1], camera.apply(text_pos))
+        screen.blit(self.text_surf[0], camera.apply(text_pos))
 
 
 class QuestGiverNPC(TalkingNPC):

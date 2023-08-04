@@ -16,6 +16,8 @@ def render_outline_text(text: str, font: pygame.Font, color, wraplength=196, wid
         (rendered_text.get_width() + width * 2, rendered_text.get_height() + width * 2),
         pygame.SRCALPHA,
     )
+    darkener = pygame.Surface(master_surf.get_size())
+    darkener.set_alpha(150)
     offsets = (
         (0, width),
         (width, 0),
@@ -26,7 +28,7 @@ def render_outline_text(text: str, font: pygame.Font, color, wraplength=196, wid
         master_surf.blit(outline, point)
     master_surf.blit(rendered_text, (width, width))
 
-    return master_surf
+    return master_surf, darkener
 
 
 def reverse_animation(anim: Animation):

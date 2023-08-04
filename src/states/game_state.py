@@ -193,8 +193,6 @@ class CameraStage(CheckpointStage):
         self.camera.adjust_to(event_info["dt"], self.player.rect)
 
 
-
-
 class UIStage(CameraStage):
     def __init__(self):
         super().__init__()
@@ -206,7 +204,7 @@ class UIStage(CameraStage):
         self.last_amount = self.player.settings["seashells"]
         self.seashell_text = render_outline_text(
             str(self.last_amount), self.seashell_font, "white"
-        )
+        )[0]
 
         seashell_icon_rect = self.seashell_icon.get_rect(bottomleft=(2, HEIGHT - 2))
         self.seashell_icon_pos = seashell_icon_rect.topleft
@@ -217,7 +215,7 @@ class UIStage(CameraStage):
         # quest notifications
         self.new_quest_surf = render_outline_text(
             "New quest!", self.seashell_font, "white"
-        )
+        )[0]
         bottomright = (WIDTH - 2, HEIGHT)
         self.new_quest_pos = self.new_quest_surf.get_rect(
             bottomright=bottomright
@@ -225,7 +223,7 @@ class UIStage(CameraStage):
 
         self.quest_finished_surf = render_outline_text(
             "Quest finished!", self.seashell_font, "white"
-        )
+        )[0]
         bottomright = (WIDTH - 2, HEIGHT)
         self.quest_finished_pos = self.quest_finished_surf.get_rect(
             bottomright=bottomright
@@ -238,7 +236,7 @@ class UIStage(CameraStage):
         # if the amount of seashells changed
         # this is done so that we don't render text every frame
         if amount != self.last_amount:
-            self.seashell_text = render_outline_text(
+            self.seashell_text, self.seashell_text_darkener = render_outline_text(
                 str(amount), self.seashell_font, "white"
             )
             self.last_amount = amount
@@ -263,7 +261,7 @@ class UIStage(CameraStage):
 
         screen.blit(self.seashell_icon, self.seashell_icon_pos)
         screen.blit(self.seashell_text, self.seashell_text_pos)
-
+        
         for particle in self.text_particles:
             particle.draw(screen)
 
