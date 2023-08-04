@@ -60,9 +60,11 @@ def load_assets(state: str) -> dict:
                     asset = get_images(image, data["sprite_sheet"])
 
             elif file_extension in (".mp3", ".wav"):
-                if data["bgm"]:
+                if not data["bgm"]:
                     asset = pygame.mixer.Sound(complete_path)
                     asset.set_volume(data["volume"])
+                else:
+                    asset = complete_path
 
             assets[file.replace(file_extension, "")] = asset
 

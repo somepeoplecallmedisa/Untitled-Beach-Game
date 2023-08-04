@@ -18,6 +18,7 @@ from src.player import Player
 class GameInit:
     def __init__(self):
         self.assets = load_assets("game")
+        print(self.assets)
         self.player = Player(self.assets)
 
         self.tilemap = TileLayerMap("assets/map/map.tmx")
