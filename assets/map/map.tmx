@@ -182,7 +182,7 @@ You told her? Got 'em!</property>
     <property name="item" value="sunscreen_2"/>
    </properties>
   </object>
-  <object id="37" name="girl" type="quest_receiver_npc" x="336.042" y="128.024" width="16" height="16">
+  <object id="37" name="man" type="quest_receiver_npc" x="336.042" y="128.024" width="16" height="16">
    <properties>
     <property name="item">sunscreen_1
 
