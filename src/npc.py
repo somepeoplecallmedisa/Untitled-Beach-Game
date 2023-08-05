@@ -108,10 +108,11 @@ class TalkingNPC:
         self.animations[self.state].play(
             screen, camera.apply(self.pos), event_info["dt"]
         )
-        text_pos = self.text_surf[0].get_rect(
-            midbottom=(self.rect.centerx, self.rect.top - 2)
-        ).topleft
-        
+        text_pos = (
+            self.text_surf[0]
+            .get_rect(midbottom=(self.rect.centerx, self.rect.top - 2))
+            .topleft
+        )
 
         screen.blit(self.text_surf[1], camera.apply(text_pos))
         screen.blit(self.text_surf[0], camera.apply(text_pos))
@@ -205,12 +206,17 @@ class ItemNPC:
         self.picked_up = False
 
         self.alpha_expansion = Expansion(0, 0, 255, 25)
-        self.pick_up_text, self.text_darkener = render_outline_text("Press E to pick up", self.FONT, "white")
+        self.pick_up_text, self.text_darkener = render_outline_text(
+            "Press E to pick up", self.FONT, "white"
+        )
 
         self.text_pos = self.pick_up_text.get_rect(midbottom=self.rect.midtop).topleft
 
     def update(self, event_info: EventInfo, player: Player):
-        if self.item in player.settings["inventory"] or self.item in player.settings["items_delivered"]:
+        if (
+            self.item in player.settings["inventory"]
+            or self.item in player.settings["items_delivered"]
+        ):
             self.picked_up = True
 
         interacting = player.rect.colliderect(self.rect)
@@ -219,8 +225,10 @@ class ItemNPC:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
                     self.picked_up = True
                     player.settings["inventory"].append(self.item)
-        
-        self.alpha_expansion.update(interacting and not self.picked_up, event_info["dt"])
+
+        self.alpha_expansion.update(
+            interacting and not self.picked_up, event_info["dt"]
+        )
         self.pick_up_text.set_alpha(int(self.alpha_expansion.number))
         self.text_darkener.set_alpha(min(175, self.alpha_expansion.number))
 

@@ -1,14 +1,10 @@
 {
-    "inventory": [
-        "fdskfjdsl"
-    ],
+    "inventory": [],
     "checkpoint_pos": [
-        1568,
-        129.0
+        0,
+        128.0
     ],
     "items_delivered": [
-        "the item",
-        "lost_cat"
     ],
-    "seashells": 2
+    "seashells": 0
 }

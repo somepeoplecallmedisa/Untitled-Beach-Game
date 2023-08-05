@@ -9,9 +9,10 @@ from engine.camera import Camera
 from engine.enums import GameStates
 from engine.particles import FadingOutText
 from engine.tilemap import TileLayerMap
-from engine.utils import get_neighboring_tiles, pixel_to_tile, render_outline_text
+from engine.utils import (get_neighboring_tiles, pixel_to_tile,
+                          render_outline_text)
 from src.common import FADE_SPEED, FONT_PATH, HEIGHT, WIDTH
-from src.npc import QuestGiverNPC, QuestReceiverNPC, TalkingNPC, ItemNPC
+from src.npc import ItemNPC, QuestGiverNPC, QuestReceiverNPC, TalkingNPC
 from src.player import Player
 
 
@@ -262,7 +263,7 @@ class UIStage(CameraStage):
 
         screen.blit(self.seashell_icon, self.seashell_icon_pos)
         screen.blit(self.seashell_text, self.seashell_text_pos)
-        
+
         for particle in self.text_particles:
             particle.draw(screen)
 
@@ -347,7 +348,7 @@ class OSTStage(PauseStage):
         pygame.mixer.music.load(self.ost)
         pygame.mixer.music.play(-1)
         pygame.mixer.music.set_volume(0.4)
-    
+
     def start_ost(self, ost):
         self.pos += pygame.mixer.music.get_pos()
         pygame.mixer.music.stop()
@@ -364,12 +365,12 @@ class OSTStage(PauseStage):
             self.ost = self.assets["ost_quiet"]
             self.start_ost(self.ost)
             pygame.mixer.music.set_volume(0.7)
-        
+
         elif not self.pause_active and self.ost == self.assets["ost_quiet"]:
             self.ost = self.assets["ost"]
             self.start_ost(self.ost)
             pygame.mixer.music.set_volume(0.4)
-            
+
 
 class TransitionStage(OSTStage):
     def __init__(self):

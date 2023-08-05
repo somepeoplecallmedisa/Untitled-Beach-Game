@@ -38,6 +38,8 @@ class Camera:
         """
 
         self.scroll.x += (target_pos.x - self.scroll.x - self.width // 2) // 1
-        self.scroll.y += ((target_pos.y - self.scroll.y - self.height // 1.5)) // 1# * dt
+        self.scroll.y += (
+            (target_pos.y - self.scroll.y - self.height // 1.5)
+        ) // 1  # * dt
 
         self.scroll.y = min(self.scroll.y, 128)

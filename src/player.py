@@ -1,3 +1,4 @@
+import itertools
 import json
 
 import pygame
@@ -7,7 +8,6 @@ from engine.animations import Animation
 from engine.camera import Camera
 from engine.enums import EntityStates
 from engine.utils import reverse_animation
-import itertools
 
 
 class Player:
@@ -81,7 +81,7 @@ class Player:
 
                 self.jump_sfx = next(self.jump_cycle)
                 self.jump_sfx.play()
-                
+
         if self.jumping:
             self.state = EntityStates.JUMP
 
