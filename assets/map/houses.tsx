@@ -791,6 +791,16 @@
    <property name="collidable" type="bool" value="false"/>
   </properties>
  </tile>
+ <tile id="158">
+  <properties>
+   <property name="collidable" type="bool" value="false"/>
+  </properties>
+ </tile>
+ <tile id="159">
+  <properties>
+   <property name="collidable" type="bool" value="false"/>
+  </properties>
+ </tile>
  <tile id="160">
   <properties>
    <property name="collidable" type="bool" value="false"/>

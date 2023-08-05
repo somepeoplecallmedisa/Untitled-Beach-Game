@@ -8,7 +8,7 @@ from engine.asset_loader import load_assets
 from engine.background import ParallaxBackground
 from engine.button import Button
 from engine.enums import GameStates
-from src.common import FADE_SPEED, HEIGHT, WIDTH
+from src.common import FADE_SPEED, HEIGHT, WIDTH, DATA_PATH
 
 pygame.font.init()
 pygame.mixer.init()
@@ -95,8 +95,13 @@ class ButtonStage(BackgroundStage):
                 if button.text == "exit":
                     self.exit = True
                 elif button.text == "play":
-                    self._next_state = GameStates.GAME
-                    self.ost_pos += pygame.mixer.music.get_pos()
+                    with open(DATA_PATH, "r") as file:
+                        settings = json.loads(file.read())
+                        if settings["run_intro"]:
+                            self._next_state = GameStates.INTRO
+                        else:
+                            self._next_state = GameStates.GAME
+                        self.ost_pos += pygame.mixer.music.get_pos()
 
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):

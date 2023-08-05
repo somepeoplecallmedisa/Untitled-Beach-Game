@@ -7,6 +7,7 @@ from engine.enums import GameStates
 from src.common import HEIGHT, WIDTH
 from src.states.game_state import GameState
 from src.states.menu import MenuState
+from src.states.intro import IntroState
 
 
 class Game:
@@ -17,6 +18,7 @@ class Game:
         self.states = {
             GameStates.GAME: GameState,
             GameStates.MENU: MenuState,
+            GameStates.INTRO: IntroState,
         }
         self.state = GameStates.MENU
         self.game_state = self.states[self.state](0)

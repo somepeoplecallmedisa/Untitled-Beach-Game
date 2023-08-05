@@ -4,6 +4,7 @@ import enum
 class GameStates(enum.Enum):
     GAME = enum.auto()
     MENU = enum.auto()
+    INTRO = enum.auto()
 
 
 class EntityStates(enum.Enum):

@@ -1,11 +1,9 @@
 {
     "inventory": [],
     "checkpoint_pos": [
-        3967,
-        177.0
+        304,
+        129.0
     ],
-    "items_delivered": [
-        "message_from_the_sewer"
-    ],
-    "seashells": 1
+    "items_delivered": [],
+    "seashells": 0
 }
