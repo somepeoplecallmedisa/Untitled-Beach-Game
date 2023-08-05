@@ -8,7 +8,7 @@ from engine.asset_loader import load_assets
 from engine.background import ParallaxBackground
 from engine.button import Button
 from engine.enums import GameStates
-from src.common import FADE_SPEED, HEIGHT, WIDTH, DATA_PATH, SAVE_PATH
+from src.common import DATA_PATH, FADE_SPEED, HEIGHT, SAVE_PATH, WIDTH
 
 pygame.font.init()
 pygame.mixer.init()
@@ -52,8 +52,8 @@ class BackgroundStage(MenuInit):
 
         mouse_pos = event_info["mouse_pos"][0] // 10
         self.scroll.x += (
-            (((mouse_pos - self.scroll.x - WIDTH // 2) // 1) + 30) * event_info["dt"]
-        )
+            ((mouse_pos - self.scroll.x - WIDTH // 2) // 1) + 30
+        ) * event_info["dt"]
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
@@ -106,20 +106,14 @@ class ButtonStage(BackgroundStage):
                     with open(SAVE_PATH, "w") as file:
                         settings = {
                             "inventory": [],
-                            "checkpoint_pos": [
-                                0,
-                                129.0
-                            ],
+                            "checkpoint_pos": [0, 129.0],
                             "items_delivered": [],
-                            "seashells": 0
+                            "seashells": 0,
                         }
                         file.write(json.dumps(settings))
                     with open(DATA_PATH, "w") as file:
-                        data = {
-                            "run_intro": True
-                        }
+                        data = {"run_intro": True}
                         file.write(json.dumps(data, indent=4))
-
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
@@ -127,7 +121,7 @@ class ButtonStage(BackgroundStage):
         for button in self.buttons:
             button.draw(screen)
 
-    
+
 class OSTStage(ButtonStage):
     def __init__(self, ost_pos: float):
         super().__init__(ost_pos)

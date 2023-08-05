@@ -186,8 +186,12 @@ class QuestReceiverNPC(TalkingNPC):
     def update(self, event_info: EventInfo, player: Player):
         super().update(event_info, player)
 
-        self.quest_done = all([item in player.settings["items_delivered"] for item in self.items])
-        self.quest_ongoing = all([item in player.settings["inventory"] for item in self.items])
+        self.quest_done = all(
+            [item in player.settings["items_delivered"] for item in self.items]
+        )
+        self.quest_ongoing = all(
+            [item in player.settings["inventory"] for item in self.items]
+        )
 
         # if the quest was already finished
         if self.quest_done and not self.check_finished:

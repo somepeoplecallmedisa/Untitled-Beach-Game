@@ -9,8 +9,7 @@ from engine.camera import Camera
 from engine.enums import GameStates
 from engine.particles import FadingOutText
 from engine.tilemap import TileLayerMap
-from engine.utils import (get_neighboring_tiles, pixel_to_tile,
-                          render_outline_text)
+from engine.utils import get_neighboring_tiles, pixel_to_tile, render_outline_text
 from src.common import FADE_SPEED, FONT_PATH, HEIGHT, WIDTH
 from src.npc import ItemNPC, QuestGiverNPC, QuestReceiverNPC, TalkingNPC
 from src.player import Player
@@ -387,14 +386,13 @@ class TransitionStage(OSTStage):
             self.transition.fade_in = False
             if self.transition.event:
                 self.save()
-                
+
                 # get last ost position
                 self.ost_pos += pygame.mixer.music.get_pos()
                 pygame.mixer.music.stop()
                 pygame.mixer.music.unload()
 
                 self.next_state = self._next_state
-
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)

@@ -1,12 +1,15 @@
-import pygame
-from engine.animations import FadeTransition
-from engine.enums import GameStates
-from engine._types import EventInfo
-from engine.utils import render_outline_text
-from src.common import FADE_SPEED, FONT_PATH, WIDTH, HEIGHT, DATA_PATH
 import json
 
+import pygame
+
+from engine._types import EventInfo
+from engine.animations import FadeTransition
+from engine.enums import GameStates
+from engine.utils import render_outline_text
+from src.common import DATA_PATH, FADE_SPEED, FONT_PATH, HEIGHT, WIDTH
+
 pygame.font.init()
+
 
 class IntroInit:
     def __init__(self, *args):
@@ -36,7 +39,7 @@ class TextStage(IntroInit):
         text = "game\ndescription\nthing\nhere"
         self.text, _ = render_outline_text(text, self.FONT, "white")
         self.text_rect = self.text.get_rect(center=(WIDTH / 2, HEIGHT / 2))
-    
+
     def update(self, event_info: EventInfo):
         super().update(event_info)
 

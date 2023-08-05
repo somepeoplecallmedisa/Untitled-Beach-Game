@@ -12,7 +12,6 @@ from src.common import SAVE_PATH
 
 
 class Player:
-
     def __init__(self, assets: dict):
         self.animations = {
             "walk_left": Animation(assets["player_walk"], 0.8),

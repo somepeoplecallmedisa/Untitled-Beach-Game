@@ -66,7 +66,7 @@ class TileLayerMap:
                         )
                         # Add tile instance to self.regular_tiles
                         self.tiles[(x, y)] = tile_instance
-                    
+
                     elif tile_props["collidable"] and tile_props["invisible"]:
                         tile_instance = pygame.Rect(
                             (x * self.tilemap.tilewidth, y * self.tilemap.tileheight),
