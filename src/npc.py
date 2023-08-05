@@ -63,6 +63,7 @@ class TalkingNPC:
         self.text_surf = self.lines[self.line_index]
 
         self.text_surf[0].set_alpha(int(self.alpha_expansion.number))
+        self.text_surf[1].set_alpha(int(self.alpha_expansion.number))
 
     def render_text(self, lines: Sequence[str]):
         """
@@ -74,6 +75,7 @@ class TalkingNPC:
         self.text_surf = self.lines[self.line_index]
 
         self.text_surf[0].set_alpha(int(self.alpha_expansion.number))
+        self.text_surf[1].set_alpha(int(self.alpha_expansion.number))
 
     def handle_states(self, player: Player):
         direction = "left"
@@ -129,6 +131,8 @@ class QuestGiverNPC(TalkingNPC):
             midbottom=(self.rect.centerx, self.rect.top - 2)
         )
 
+        self.sfx = assets["quest_give"]
+
         self.quest_done = False
         self.check_finished = False
         self.quest_ongoing = False
@@ -148,6 +152,7 @@ class QuestGiverNPC(TalkingNPC):
 
         # if the quest is starting
         elif self.talking and not self.quest_ongoing and not self.quest_done:
+            self.sfx.play()
             player.settings["inventory"].append(self.item)
             player.new_quest = True
 
@@ -168,6 +173,8 @@ class QuestReceiverNPC(TalkingNPC):
         self.check_finished = False
         # goofy
         self.check_finished_2 = False
+
+        self.sfx = assets["quest_receive"]
 
     def update(self, event_info: EventInfo, player: Player):
         super().update(event_info, player)
@@ -190,6 +197,8 @@ class QuestReceiverNPC(TalkingNPC):
             self.render_text_default(lines)
 
         if self.check_finished_2 and self.talking and self.quest_ongoing:
+            self.sfx.play()
+
             player.settings["inventory"].remove(self.item)
             player.settings["items_delivered"].append(self.item)
             player.settings["seashells"] += 1

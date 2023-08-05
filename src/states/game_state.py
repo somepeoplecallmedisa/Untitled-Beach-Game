@@ -345,10 +345,8 @@ class OSTStage(PauseStage):
 
         self.ost = self.assets["ost"]
         self.ost_pos = ost_pos
-        # pygame.mixer.music.load(self.ost)
-        # pygame.mixer.music.play(-1)
-        # pygame.mixer.music.set_volume(0.4)
         self.start_ost(self.ost)
+        pygame.mixer.music.set_volume(0.4)
 
     def start_ost(self, ost):
         self.ost_pos += pygame.mixer.music.get_pos()

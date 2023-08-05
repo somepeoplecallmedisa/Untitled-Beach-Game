@@ -1,12 +1,22 @@
 {
     "button_high.mp3": {
-        "volume": 0.4,
+        "volume": 0.3,
         "states": ["game", "menu"],
         "bgm": false
     },
     "button_low.mp3": {
-        "volume": 0.4,
+        "volume": 0.3,
         "states": ["game", "menu"],
+        "bgm": false
+    },
+    "quest_receive.mp3": {
+        "volume": 0.7,
+        "states": ["game"],
+        "bgm": false
+    },
+    "quest_give.mp3": {
+        "volume": 0.7,
+        "states": ["game"],
         "bgm": false
     },
     "jump_1.mp3": {
@@ -30,7 +40,7 @@
         "bgm": false
     },
     "ost.mp3": {
-        "volume": 0.5,
+        "volume": 0.4,
         "states": ["game"],
         "bgm": true
     },
