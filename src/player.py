@@ -8,10 +8,10 @@ from engine.animations import Animation
 from engine.camera import Camera
 from engine.enums import EntityStates
 from engine.utils import reverse_animation
+from src.common import SAVE_PATH
 
 
 class Player:
-    SAVE_PATH = "assets/data/player_save.json"
 
     def __init__(self, assets: dict):
         self.animations = {
@@ -44,12 +44,12 @@ class Player:
         self.load_save()
 
     def load_save(self):
-        with open(self.SAVE_PATH, "r") as f:
+        with open(SAVE_PATH, "r") as f:
             self.settings = json.loads(f.read())
             self.rect.topleft = self.settings["checkpoint_pos"]
 
     def dump_save(self):
-        with open(self.SAVE_PATH, "w") as f:
+        with open(SAVE_PATH, "w") as f:
             f.write(json.dumps(self.settings, indent=4))
 
     def move(self, event_info: EventInfo):

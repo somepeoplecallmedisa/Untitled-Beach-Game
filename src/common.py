@@ -7,3 +7,4 @@ FADE_SPEED = 27
 
 FONT_PATH = "assets/loadable/graphics/Minecraftia-Regular.ttf"
 DATA_PATH = "assets/data/global_data.json"
+SAVE_PATH = "assets/data/player_save.json"

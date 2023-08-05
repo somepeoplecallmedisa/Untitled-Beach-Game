@@ -8,7 +8,7 @@ from engine.asset_loader import load_assets
 from engine.background import ParallaxBackground
 from engine.button import Button
 from engine.enums import GameStates
-from src.common import FADE_SPEED, HEIGHT, WIDTH, DATA_PATH
+from src.common import FADE_SPEED, HEIGHT, WIDTH, DATA_PATH, SAVE_PATH
 
 pygame.font.init()
 pygame.mixer.init()
@@ -71,7 +71,7 @@ class ButtonStage(BackgroundStage):
             "text": (6, 6, 8),
         }
         size = pygame.Vector2(64, 16)
-        button_texts = ("exit", "play")
+        button_texts = ("exit", "reset", "play")
         self.buttons = [
             Button(
                 self.assets,
@@ -102,6 +102,23 @@ class ButtonStage(BackgroundStage):
                         else:
                             self._next_state = GameStates.GAME
                         self.ost_pos += pygame.mixer.music.get_pos()
+                elif button.text == "reset":
+                    with open(SAVE_PATH, "w") as file:
+                        settings = {
+                            "inventory": [],
+                            "checkpoint_pos": [
+                                0,
+                                129.0
+                            ],
+                            "items_delivered": [],
+                            "seashells": 0
+                        }
+                        file.write(json.dumps(settings))
+                    with open(DATA_PATH, "w") as file:
+                        data = {
+                            "run_intro": True
+                        }
+                        file.write(json.dumps(data, indent=4))
 
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
