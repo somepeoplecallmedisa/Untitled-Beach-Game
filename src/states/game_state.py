@@ -11,7 +11,7 @@ from engine.particles import FadingOutText
 from engine.tilemap import TileLayerMap
 from engine.utils import get_neighboring_tiles, pixel_to_tile, render_outline_text
 from src.common import FADE_SPEED, FONT_PATH, HEIGHT, WIDTH
-from src.npc import QuestGiverNPC, QuestReceiverNPC, TalkingNPC
+from src.npc import QuestGiverNPC, QuestReceiverNPC, TalkingNPC, ItemNPC
 from src.player import Player
 
 
@@ -130,6 +130,7 @@ class NPCStage(TileStage):
             "talking_npc": TalkingNPC,
             "quest_giver_npc": QuestGiverNPC,
             "quest_receiver_npc": QuestReceiverNPC,
+            "item_npc": ItemNPC,
         }
         for obj in self.tilemap.tilemap.get_layer_by_name("npcs"):
             npc_type = npc_types[obj.type]

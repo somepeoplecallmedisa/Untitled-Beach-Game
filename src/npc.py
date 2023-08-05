@@ -100,6 +100,7 @@ class TalkingNPC:
 
         self.alpha_expansion.update(self.interacting, event_info["dt"])
         self.text_surf[0].set_alpha(int(self.alpha_expansion.number))
+        self.text_surf[1].set_alpha(min(175, self.alpha_expansion.number))
 
         self.handle_states(player)
 
@@ -111,7 +112,6 @@ class TalkingNPC:
             midbottom=(self.rect.centerx, self.rect.top - 2)
         ).topleft
         
-        self.text_surf[1].set_alpha(min(175, self.alpha_expansion.number))
 
         screen.blit(self.text_surf[1], camera.apply(text_pos))
         screen.blit(self.text_surf[0], camera.apply(text_pos))
@@ -194,6 +194,39 @@ class QuestReceiverNPC(TalkingNPC):
             player.settings["seashells"] += 1
 
 
-class QuestGiverReceiverNPC(TalkingNPC):
-    def __init__(self):
-        pass
+class ItemNPC:
+    FONT = pygame.Font(FONT_PATH, 8)
+
+    def __init__(self, assets: dict, obj: TiledObject):
+        self.surface = assets[obj.name]
+        obj_rect = pygame.Rect(obj.x, obj.y, obj.width, obj.height)
+        self.rect = self.surface.get_rect(midbottom=obj_rect.midbottom)
+        self.item = obj.properties["item"]
+        self.picked_up = False
+
+        self.alpha_expansion = Expansion(0, 0, 255, 25)
+        self.pick_up_text, self.text_darkener = render_outline_text("Press E to pick up", self.FONT, "white")
+
+        self.text_pos = self.pick_up_text.get_rect(midbottom=self.rect.midtop).topleft
+
+    def update(self, event_info: EventInfo, player: Player):
+        if self.item in player.settings["inventory"] or self.item in player.settings["items_delivered"]:
+            self.picked_up = True
+
+        interacting = player.rect.colliderect(self.rect)
+        if interacting and not self.picked_up:
+            for event in event_info["events"]:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
+                    self.picked_up = True
+                    player.settings["inventory"].append(self.item)
+        
+        self.alpha_expansion.update(interacting and not self.picked_up, event_info["dt"])
+        self.pick_up_text.set_alpha(int(self.alpha_expansion.number))
+        self.text_darkener.set_alpha(min(175, self.alpha_expansion.number))
+
+    def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):
+        if not self.picked_up:
+            screen.blit(self.surface, camera.apply(self.rect))
+
+        screen.blit(self.text_darkener, camera.apply(self.text_pos))
+        screen.blit(self.pick_up_text, camera.apply(self.text_pos))
