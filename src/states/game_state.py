@@ -349,7 +349,6 @@ class OSTStage(PauseStage):
         pygame.mixer.music.set_volume(0.4)
 
     def start_ost(self, ost):
-        self.ost_pos += pygame.mixer.music.get_pos()
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()
         pygame.mixer.music.load(ost)
@@ -362,11 +361,13 @@ class OSTStage(PauseStage):
 
         if self.pause_active and self.ost == self.assets["ost"]:
             self.ost = self.assets["ost_quiet"]
+            self.ost_pos += pygame.mixer.music.get_pos()
             self.start_ost(self.ost)
             pygame.mixer.music.set_volume(0.7)
 
         elif not self.pause_active and self.ost == self.assets["ost_quiet"]:
             self.ost = self.assets["ost"]
+            self.ost_pos += pygame.mixer.music.get_pos()
             self.start_ost(self.ost)
             pygame.mixer.music.set_volume(0.4)
 

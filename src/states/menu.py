@@ -15,7 +15,7 @@ pygame.mixer.init()
 
 
 class MenuInit:
-    def __init__(self):
+    def __init__(self, ost_pos: float):
         self.assets = load_assets("menu")
         # triggers the state switch
         self.next_state = None
@@ -23,6 +23,8 @@ class MenuInit:
         # but doesn't trigger the state switch
         self._next_state = None
         self.exit = False
+
+        self.ost_pos = ost_pos
 
     def update(self, event_info: EventInfo):
         pass
@@ -32,8 +34,8 @@ class MenuInit:
 
 
 class BackgroundStage(MenuInit):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, ost_pos: float):
+        super().__init__(ost_pos)
 
         self.background = ParallaxBackground(
             [
@@ -60,8 +62,8 @@ class BackgroundStage(MenuInit):
 
 
 class ButtonStage(BackgroundStage):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, ost_pos: float):
+        super().__init__(ost_pos)
 
         button_colors = {
             "static": (109, 117, 141),
@@ -94,6 +96,8 @@ class ButtonStage(BackgroundStage):
                     self.exit = True
                 elif button.text == "play":
                     self._next_state = GameStates.GAME
+                    self.ost_pos += pygame.mixer.music.get_pos()
+
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
@@ -104,7 +108,7 @@ class ButtonStage(BackgroundStage):
     
 class OSTStage(ButtonStage):
     def __init__(self, ost_pos: float):
-        super().__init__()
+        super().__init__(ost_pos)
 
         self.ost = self.assets["ost_quiet"]
         pygame.mixer.music.load(self.ost)
@@ -112,7 +116,6 @@ class OSTStage(ButtonStage):
         pygame.mixer.music.set_volume(0.7)
 
         # set the ost to the last position
-        self.ost_pos = ost_pos
         pygame.mixer.music.rewind()
         pygame.mixer.music.set_pos(self.ost_pos / 1000)
 
