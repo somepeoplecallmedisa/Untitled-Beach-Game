@@ -11,6 +11,7 @@ from engine.enums import GameStates
 from src.common import FADE_SPEED, HEIGHT, WIDTH
 
 pygame.font.init()
+pygame.mixer.init()
 
 
 class MenuInit:
@@ -100,10 +101,25 @@ class ButtonStage(BackgroundStage):
         for button in self.buttons:
             button.draw(screen)
 
-
-class TransitionStage(ButtonStage):
-    def __init__(self):
+    
+class OSTStage(ButtonStage):
+    def __init__(self, ost_pos: float):
         super().__init__()
+
+        self.ost = self.assets["ost_quiet"]
+        pygame.mixer.music.load(self.ost)
+        pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.7)
+
+        # set the ost to the last position
+        self.ost_pos = ost_pos
+        pygame.mixer.music.rewind()
+        pygame.mixer.music.set_pos(self.ost_pos / 1000)
+
+
+class TransitionStage(OSTStage):
+    def __init__(self, ost_pos: float):
+        super().__init__(ost_pos)
 
         self.transition = FadeTransition(True, FADE_SPEED, (WIDTH, HEIGHT))
 

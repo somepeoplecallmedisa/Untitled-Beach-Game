@@ -18,8 +18,8 @@ class Game:
             GameStates.GAME: GameState,
             GameStates.MENU: MenuState,
         }
-        self.state = GameStates.GAME
-        self.game_state = self.states[self.state]()
+        self.state = GameStates.MENU
+        self.game_state = self.states[self.state](0)
 
     def _exit(self):
         if self.state == GameStates.GAME:
@@ -46,7 +46,7 @@ class Game:
 
             if self.game_state.next_state is not None:
                 self.state = self.game_state.next_state
-                self.game_state = self.states[self.state]()
+                self.game_state = self.states[self.state](self.game_state.ost_pos)
 
             self.game_state.draw(self.screen, event_info)
             self.game_state.update(event_info)

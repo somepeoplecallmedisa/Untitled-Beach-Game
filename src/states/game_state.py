@@ -340,23 +340,24 @@ class PauseStage(UIStage):
 
 
 class OSTStage(PauseStage):
-    def __init__(self):
+    def __init__(self, ost_pos: float):
         super().__init__()
 
         self.ost = self.assets["ost"]
-        self.pos = 0
-        pygame.mixer.music.load(self.ost)
-        pygame.mixer.music.play(-1)
-        pygame.mixer.music.set_volume(0.4)
+        self.ost_pos = ost_pos
+        # pygame.mixer.music.load(self.ost)
+        # pygame.mixer.music.play(-1)
+        # pygame.mixer.music.set_volume(0.4)
+        self.start_ost(self.ost)
 
     def start_ost(self, ost):
-        self.pos += pygame.mixer.music.get_pos()
+        self.ost_pos += pygame.mixer.music.get_pos()
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()
         pygame.mixer.music.load(ost)
         pygame.mixer.music.play(-1)
         pygame.mixer.music.rewind()
-        pygame.mixer.music.set_pos(self.pos / 1000)
+        pygame.mixer.music.set_pos(self.ost_pos / 1000)
 
     def update(self, event_info: EventInfo):
         super().update(event_info)
@@ -373,8 +374,8 @@ class OSTStage(PauseStage):
 
 
 class TransitionStage(OSTStage):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, ost_pos: float):
+        super().__init__(ost_pos)
 
         self.transition = FadeTransition(True, FADE_SPEED, (WIDTH, HEIGHT))
 
@@ -386,7 +387,14 @@ class TransitionStage(OSTStage):
             self.transition.fade_in = False
             if self.transition.event:
                 self.save()
+                
+                # get last ost position
+                self.ost_pos += pygame.mixer.music.get_pos()
+                pygame.mixer.music.stop()
+                pygame.mixer.music.unload()
+
                 self.next_state = self._next_state
+
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
