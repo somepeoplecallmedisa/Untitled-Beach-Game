@@ -141,7 +141,8 @@ class NPCStage(TileStage):
         super().update(event_info)
 
         for npc in self.npcs:
-            npc.update(event_info, self.player)
+            if npc.rect.colliderect(self.camera.screen_rect):
+                npc.update(event_info, self.player)
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)

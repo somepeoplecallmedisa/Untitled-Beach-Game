@@ -13,6 +13,7 @@ class Camera:
         self.width = width
         self.height = height
         self.scroll = pygame.Vector2(0, -48)
+        self.screen_rect = pygame.Rect(self.scroll, (self.width, self.height))
 
     def apply(self, target_pos: Position) -> Position:
         """
@@ -28,7 +29,7 @@ class Camera:
         )
         return pos
 
-    def adjust_to(self, dt: float, target_pos: pygame.Vector2) -> None:
+    def adjust_to(self, dt: float, target_pos: pygame.Rect) -> None:
         """
         Smoothly adjusts the camera pos to the target pos
 
@@ -43,3 +44,7 @@ class Camera:
         ) // 1  # * dt
 
         self.scroll.y = min(self.scroll.y, 128)
+
+        # this just works i dunno why
+        self.screen_rect.center = self.apply(target_pos.topleft)
+        self.screen_rect.y -= 24

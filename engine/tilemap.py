@@ -27,7 +27,6 @@ class TileLayerMap:
 
         # Tiles will be filled in on render_map
         self.tiles = {}
-        self.special_tiles = {}
 
     def render_map(
         self, surface: pygame.Surface, tilset: Optional[Sequence] = None
@@ -60,13 +59,20 @@ class TileLayerMap:
                     )
 
                     # Construct appropriate instance based on tile type
-                    if tile_props["collidable"]:
+                    if tile_props["collidable"] and not tile_props["invisible"]:
                         tile_instance = pygame.Rect(
                             (x * self.tilemap.tilewidth, y * self.tilemap.tileheight),
                             (self.tilemap.tilewidth, self.tilemap.tileheight),
                         )
-
-                        # Add tile instance to self.tiles
+                        # Add tile instance to self.regular_tiles
+                        self.tiles[(x, y)] = tile_instance
+                    
+                    elif tile_props["collidable"] and tile_props["invisible"]:
+                        tile_instance = pygame.Rect(
+                            (x * self.tilemap.tilewidth, y * self.tilemap.tileheight),
+                            (self.tilemap.tilewidth, 2),
+                        )
+                        # Add tile instance to self.invisible_tiles
                         self.tiles[(x, y)] = tile_instance
 
     def make_map(self, tileset: Optional[Sequence] = None) -> pygame.Surface:

@@ -52,7 +52,7 @@ class BackgroundStage(MenuInit):
 
         mouse_pos = event_info["mouse_pos"][0] // 10
         self.scroll.x += (
-            (mouse_pos - self.scroll.x - WIDTH // 2) // 1 * event_info["dt"]
+            (((mouse_pos - self.scroll.x - WIDTH // 2) // 1) + 30) * event_info["dt"]
         )
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
