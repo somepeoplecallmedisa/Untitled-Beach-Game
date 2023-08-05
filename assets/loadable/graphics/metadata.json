@@ -48,5 +48,15 @@
         "sprite_sheet": null,
         "convert_alpha": true,
         "states": ["game"]
+    },
+    "sunscreen_1.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "sunscreen_2.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["game"]
     }
 }

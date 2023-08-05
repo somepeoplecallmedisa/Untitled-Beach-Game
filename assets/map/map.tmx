@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="256" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="36">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="256" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="39">
  <tileset firstgid="1" source="test.tsx"/>
  <tileset firstgid="145" source="houses.tsx"/>
  <layer id="7" name="decorations bg" width="256" height="20">
@@ -175,6 +175,25 @@ You told her? Got 'em!</property>
   <object id="35" name="exclamation" type="item_npc" x="1536" y="128" width="16" height="16">
    <properties>
     <property name="item" value="thing"/>
+   </properties>
+  </object>
+  <object id="36" name="sunscreen_2" type="item_npc" x="384.011" y="128" width="16" height="16">
+   <properties>
+    <property name="item" value="sunscreen_2"/>
+   </properties>
+  </object>
+  <object id="37" name="girl" type="quest_receiver_npc" x="336.042" y="128.024" width="16" height="16">
+   <properties>
+    <property name="item">sunscreen_1
+
+sunscreen_2</property>
+    <property name="text" value="i lost my sunscreen :("/>
+    <property name="text_if_item" value="you found it!! pog"/>
+   </properties>
+  </object>
+  <object id="38" name="sunscreen_1" type="item_npc" x="367.913" y="127.913" width="16" height="16">
+   <properties>
+    <property name="item" value="sunscreen_1"/>
    </properties>
   </object>
  </objectgroup>

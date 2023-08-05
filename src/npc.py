@@ -168,7 +168,7 @@ class QuestReceiverNPC(TalkingNPC):
     def __init__(self, assets: dict, obj):
         super().__init__(assets, obj)
 
-        self.item = obj.properties["item"]
+        self.items = obj.properties["item"].split("\n\n")
         self.text_if_item = obj.properties["text_if_item"]
         self.check_finished = False
         # goofy
@@ -179,8 +179,8 @@ class QuestReceiverNPC(TalkingNPC):
     def update(self, event_info: EventInfo, player: Player):
         super().update(event_info, player)
 
-        self.quest_done = self.item in player.settings["items_delivered"]
-        self.quest_ongoing = self.item in player.settings["inventory"]
+        self.quest_done = all([item in player.settings["items_delivered"] for item in self.items])
+        self.quest_ongoing = all([item in player.settings["inventory"] for item in self.items])
 
         # if the quest was already finished
         if self.quest_done and not self.check_finished:
@@ -199,8 +199,9 @@ class QuestReceiverNPC(TalkingNPC):
         if self.check_finished_2 and self.talking and self.quest_ongoing:
             self.sfx.play()
 
-            player.settings["inventory"].remove(self.item)
-            player.settings["items_delivered"].append(self.item)
+            for item in self.items:
+                player.settings["inventory"].remove(item)
+                player.settings["items_delivered"].append(item)
             player.settings["seashells"] += 1
 
 
