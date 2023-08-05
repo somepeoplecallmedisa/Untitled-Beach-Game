@@ -165,6 +165,8 @@ class QuestReceiverNPC(TalkingNPC):
         self.item = obj.properties["item"]
         self.text_if_item = obj.properties["text_if_item"]
         self.check_finished = False
+        # goofy
+        self.check_finished_2 = False
 
     def update(self, event_info: EventInfo, player: Player):
         super().update(event_info, player)
@@ -173,20 +175,25 @@ class QuestReceiverNPC(TalkingNPC):
         self.quest_ongoing = self.item in player.settings["inventory"]
 
         # if the quest was already finished
-        if not self.talking and self.quest_done and not self.check_finished:
+        if self.quest_done and not self.check_finished:
             lines = self.text_if_item.split("\n\n")
             self.render_text_default(lines)
-            # we only need to check for this once
-            self.check_finished = True
+        # we only need to check for this once
+        self.check_finished = True
 
         # if player finished the quest and the text
         # hasn't been rendered already
-        if self.interacting and self.item in player.settings["inventory"]:
+        if self.interacting and self.quest_ongoing and not self.check_finished_2:
+            self.check_finished_2 = True
             lines = self.text_if_item.split("\n\n")
-            self.render_text(lines)
+            self.render_text_default(lines)
 
-            if self.talking:
-                player.settings["inventory"].remove(self.item)
-                player.settings["items_delivered"].append(self.item)
-                player.settings["seashells"] += 1
+        if self.check_finished_2 and self.talking and self.quest_ongoing:
+            player.settings["inventory"].remove(self.item)
+            player.settings["items_delivered"].append(self.item)
+            player.settings["seashells"] += 1
 
+
+class QuestGiverReceiverNPC(TalkingNPC):
+    def __init__(self):
+        pass
