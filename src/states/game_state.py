@@ -68,9 +68,9 @@ class BackgroundStage(GameInit):
     def update(self, event_info: EventInfo):
         super().update(event_info)
 
-        if self.player.rect.x <= 124.5 * 16:
+        if self.player.rect.x <= 124.5 * 16 and self.player.rect.y > 4 * 16:
             self.background = self.suburb_background
-        elif self.player.rect.x >= 124.5 * 16:
+        elif self.player.rect.x >= 124.5 * 16 and self.player.rect.y > 4 * 16:
             self.background = self.downtown_background
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):

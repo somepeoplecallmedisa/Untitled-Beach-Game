@@ -170,9 +170,16 @@ class QuestReceiverNPC(TalkingNPC):
 
         self.items = obj.properties["item"].split("\n\n")
         self.text_if_item = obj.properties["text_if_item"]
-        self.check_finished = False
+        self.quest_done = False
+        self.quest_ongoing = False
         # goofy
+        self.check_finished = False
         self.check_finished_2 = False
+
+        self.exclamation = assets["exclamation"]
+        self.exclamation_pos = self.exclamation.get_rect(
+            midbottom=(self.rect.centerx, self.rect.top - 2)
+        )
 
         self.sfx = assets["quest_receive"]
 
@@ -203,6 +210,12 @@ class QuestReceiverNPC(TalkingNPC):
                 player.settings["inventory"].remove(item)
                 player.settings["items_delivered"].append(item)
             player.settings["seashells"] += 1
+
+    def draw(self, screen: pygame.Surface, camera: Camera, event_info: EventInfo):
+        if not self.quest_done:
+            screen.blit(self.exclamation, camera.apply(self.exclamation_pos))
+
+        super().draw(screen, camera, event_info)
 
 
 class ItemNPC:
