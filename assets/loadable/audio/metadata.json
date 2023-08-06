@@ -48,5 +48,10 @@
         "volume": 0.5,
         "states": ["game", "menu"],
         "bgm": true
+    },
+    "beach.mp3": {
+        "volume": 0.5,
+        "states": ["intro"],
+        "bgm": false
     }
 }

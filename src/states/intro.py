@@ -7,12 +7,15 @@ from engine.animations import FadeTransition
 from engine.enums import GameStates
 from engine.utils import render_outline_text
 from src.common import DATA_PATH, FADE_SPEED, FONT_PATH, HEIGHT, WIDTH
+from engine.asset_loader import load_assets
 
 pygame.font.init()
 
 
 class IntroInit:
     def __init__(self, *args):
+        self.assets = load_assets("intro")
+        self.assets["beach"].play(-1)
         # triggers the state switch
         self.next_state = None
         # decides which state is next,
@@ -73,6 +76,7 @@ class TransitionStage(TextStage):
         self.transition.update(event_info["dt"])
         if self._next_state is not None:
             self.transition.fade_in = False
+            self.assets["beach"].fadeout(450)
             if self.transition.event:
                 self.next_state = self._next_state
 
