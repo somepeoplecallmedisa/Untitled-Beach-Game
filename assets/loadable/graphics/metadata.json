@@ -39,6 +39,11 @@
         "convert_alpha": true,
         "states": ["menu", "game"]
     },
+    "bg5.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["menu", "game"]
+    },
     "exclamation.png": {
         "sprite_sheet": null,
         "convert_alpha": true,

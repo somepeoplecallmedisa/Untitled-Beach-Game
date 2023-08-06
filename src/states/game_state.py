@@ -61,16 +61,25 @@ class BackgroundStage(GameInit):
                 (self.assets["bg4"], 0.2),
             ]
         )
+        self.beach_background = ParallaxBackground(
+            [
+                (self.assets["bg0"], 0.025),
+                (self.assets["bg1"], 0.075),
+                (self.assets["bg5"], 0.2),
+            ]
+        )
 
         self.background = self.suburb_background
 
     def update(self, event_info: EventInfo):
         super().update(event_info)
 
-        if self.player.rect.x <= 124.5 * 16 and self.player.rect.y > 4 * 16:
+        if self.player.rect.x <= 124.5 * 16:
             self.background = self.suburb_background
-        elif self.player.rect.x >= 124.5 * 16 and self.player.rect.y > 4 * 16:
+        elif self.player.rect.x <= 283 * 16 and self.player.rect.y > 4 * 16:
             self.background = self.downtown_background
+        elif self.player.rect.x >= 283 * 16:
+            self.background = self.beach_background
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
@@ -140,8 +149,7 @@ class NPCStage(TileStage):
         super().update(event_info)
 
         for npc in self.npcs:
-            if npc.rect.colliderect(self.camera.screen_rect):
-                npc.update(event_info, self.player)
+            npc.update(event_info, self.player)
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
