@@ -1,1 +1,9 @@
-{"inventory": [], "checkpoint_pos": [0, 129.0], "items_delivered": [], "seashells": 0}
+{
+    "inventory": [],
+    "checkpoint_pos": [
+        0,
+        129.0
+    ],
+    "items_delivered": [],
+    "seashells": 0
+}

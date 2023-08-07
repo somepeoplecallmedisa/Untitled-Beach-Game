@@ -117,7 +117,7 @@ class ButtonStage(BackgroundStage):
                             "items_delivered": [],
                             "seashells": 0,
                         }
-                        file.write(json.dumps(settings))
+                        file.write(json.dumps(settings, indent=4))
                     with open(DATA_PATH, "w") as file:
                         data = {"run_intro": True, "game_complete": False}
                         file.write(json.dumps(data, indent=4))
