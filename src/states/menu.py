@@ -37,11 +37,18 @@ class BackgroundStage(MenuInit):
     def __init__(self, ost_pos: float):
         super().__init__(ost_pos)
 
+        with open(DATA_PATH, "r") as f:
+            data = json.loads(f.read())
+            if data["game_complete"]:
+                special_layer = self.assets["bg5"]
+            else:
+                special_layer = self.assets["bg2"]
+
         self.background = ParallaxBackground(
             [
                 (self.assets["bg0"], 0.05),
                 (self.assets["bg1"], 0.15),
-                (self.assets["bg2"], 0.3),
+                (special_layer, 0.3),
                 (self.assets["bg3"], 0.4),
             ]
         )
@@ -112,7 +119,7 @@ class ButtonStage(BackgroundStage):
                         }
                         file.write(json.dumps(settings))
                     with open(DATA_PATH, "w") as file:
-                        data = {"run_intro": True}
+                        data = {"run_intro": True, "game_complete": False}
                         file.write(json.dumps(data, indent=4))
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):

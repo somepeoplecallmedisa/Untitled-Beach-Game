@@ -1,5 +1,3 @@
-import json
-
 import pygame
 
 from engine._types import EventInfo
@@ -12,9 +10,9 @@ from engine.asset_loader import load_assets
 pygame.font.init()
 
 
-class IntroInit:
+class CreditsInit:
     def __init__(self, *args):
-        self.assets = load_assets("intro")
+        self.assets = load_assets("credits")
         self.assets["beach"].play(-1)
         # triggers the state switch
         self.next_state = None
@@ -31,7 +29,7 @@ class IntroInit:
         screen.fill((6, 6, 8))
 
 
-class TextStage(IntroInit):
+class TextStage(CreditsInit):
     FONT = pygame.Font(FONT_PATH, 8)
 
     def __init__(self, *args):
@@ -48,15 +46,7 @@ class TextStage(IntroInit):
 
         for event in event_info["events"]:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
-                self._next_state = GameStates.GAME
-
-                with open(DATA_PATH, "r") as file:
-                    settings = json.loads(file.read())
-
-                settings["run_intro"] = False
-
-                with open(DATA_PATH, "w") as file:
-                    file.write(json.dumps(settings, indent=4))
+                self._next_state = GameStates.MENU
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)
@@ -86,5 +76,5 @@ class TransitionStage(TextStage):
         self.transition.draw(screen)
 
 
-class IntroState(TransitionStage):
+class CreditsState(TransitionStage):
     pass

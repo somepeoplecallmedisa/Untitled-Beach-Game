@@ -51,7 +51,7 @@
     },
     "beach.mp3": {
         "volume": 0.5,
-        "states": ["intro"],
+        "states": ["intro", "credits"],
         "bgm": false
     }
 }

@@ -8,6 +8,7 @@ from src.common import HEIGHT, WIDTH
 from src.states.game_state import GameState
 from src.states.intro import IntroState
 from src.states.menu import MenuState
+from src.states.credits import CreditsState
 
 
 class Game:
@@ -19,6 +20,7 @@ class Game:
             GameStates.GAME: GameState,
             GameStates.MENU: MenuState,
             GameStates.INTRO: IntroState,
+            GameStates.CREDITS: CreditsState,
         }
         self.state = GameStates.MENU
         self.game_state = self.states[self.state](0)
