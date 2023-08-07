@@ -68,5 +68,15 @@
         "sprite_sheet": [14, 15],
         "convert_alpha": true,
         "states": ["game"]
+    },
+    "hooded_guy_idle.png": {
+        "sprite_sheet": [15, 15],
+        "convert_alpha": true,
+        "states": ["game"]
+    },
+    "hooded_guy_talk.png": {
+        "sprite_sheet": [15, 15],
+        "convert_alpha": true,
+        "states": ["game"]
     }
 }

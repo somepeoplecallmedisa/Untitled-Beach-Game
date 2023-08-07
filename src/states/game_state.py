@@ -328,6 +328,8 @@ class BeachStage(UIStage):
                     "game_complete": True,
                 }, indent=4)
                 f.write(settings)
+            
+            pygame.mixer.music.fadeout(11000)
 
 
 class PauseStage(BeachStage):

@@ -39,7 +39,7 @@ class TextStage(IntroInit):
 
         self.FONT.align = pygame.FONT_CENTER
 
-        text = "game\ndescription\nthing\nhere"
+        text = "It's summer, year 1969. The soothing breeze occupied your mind. You can't help but let your imagination drive you mad, as you almost feel yourself sitting back and soaking up the sun, watching the waves rolling in. But in order to get to the beach, you must help out 5 conveniently placed NPCs first. Those are the rules of this game.\n\npress E to continue"
         self.text, _ = render_outline_text(text, self.FONT, "white")
         self.text_rect = self.text.get_rect(center=(WIDTH / 2, HEIGHT / 2))
 

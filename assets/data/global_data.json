@@ -1,4 +1,4 @@
 {
-    "run_intro": false,
-    "game_complete": true
+    "run_intro": true,
+    "game_complete": false
 }

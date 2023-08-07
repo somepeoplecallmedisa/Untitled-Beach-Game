@@ -37,7 +37,7 @@ class TextStage(CreditsInit):
 
         self.FONT.align = pygame.FONT_CENTER
 
-        text = "game\ndescription\nthing\nhere"
+        text = "And just like that, you made it to the beach, fearlessly helping all the doofuses you've met along the way.\n\npress E to continue"
         self.text, _ = render_outline_text(text, self.FONT, "white")
         self.text_rect = self.text.get_rect(center=(WIDTH / 2, HEIGHT / 2))
 
@@ -47,6 +47,8 @@ class TextStage(CreditsInit):
         for event in event_info["events"]:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
                 self._next_state = GameStates.MENU
+                self.transition.fade_speed /= 5
+
 
     def draw(self, screen: pygame.Surface, event_info: EventInfo):
         super().draw(screen, event_info)

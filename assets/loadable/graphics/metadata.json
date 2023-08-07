@@ -63,5 +63,10 @@
         "sprite_sheet": null,
         "convert_alpha": true,
         "states": ["game"]
+    },
+    "beach_ball.png": {
+        "sprite_sheet": null,
+        "convert_alpha": true,
+        "states": ["game"]
     }
 }
