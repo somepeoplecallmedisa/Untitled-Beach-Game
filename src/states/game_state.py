@@ -1,3 +1,5 @@
+import json
+
 import pygame
 
 from engine._types import EventInfo
@@ -9,11 +11,11 @@ from engine.camera import Camera
 from engine.enums import GameStates
 from engine.particles import FadingOutText
 from engine.tilemap import TileLayerMap
-from engine.utils import get_neighboring_tiles, pixel_to_tile, render_outline_text
-from src.common import FADE_SPEED, FONT_PATH, HEIGHT, WIDTH, DATA_PATH
+from engine.utils import (get_neighboring_tiles, pixel_to_tile,
+                          render_outline_text)
+from src.common import DATA_PATH, FADE_SPEED, FONT_PATH, HEIGHT, WIDTH
 from src.npc import ItemNPC, QuestGiverNPC, QuestReceiverNPC, TalkingNPC
 from src.player import Player
-import json
 
 
 class GameInit:
@@ -252,9 +254,7 @@ class UIStage(CameraStage):
             "You made it!", self.seashell_font, "white"
         )[0]
         bottomright = (WIDTH - 2, HEIGHT)
-        self.congrats_pos = self.congrats_surf.get_rect(
-            bottomright=bottomright
-        ).topleft
+        self.congrats_pos = self.congrats_surf.get_rect(bottomright=bottomright).topleft
 
     def update(self, event_info: EventInfo):
         super().update(event_info)
@@ -305,14 +305,24 @@ class BeachStage(UIStage):
     def update(self, event_info: EventInfo):
         super().update(event_info)
 
-        if self.player.rect.x > 290 * 16 and self.player.settings["seashells"] < 5 and self.player.vel.x > 0:
+        if (
+            self.player.rect.x > 290 * 16
+            and self.player.settings["seashells"] < 5
+            and self.player.vel.x > 0
+        ):
             self.player.vel.x = 0
 
             if len(self.text_particles) < 3:
                 self.text_particles.append(
-                    FadingOutText(self.no_seashells_surf.copy(), self.no_seashells_pos, 5, 230)
+                    FadingOutText(
+                        self.no_seashells_surf.copy(), self.no_seashells_pos, 5, 230
+                    )
                 )
-        elif int(self.player.rect.x) == 290 * 16 and self.player.settings["seashells"] >= 5 and not self.player_congratulated:
+        elif (
+            int(self.player.rect.x) == 290 * 16
+            and self.player.settings["seashells"] >= 5
+            and not self.player_congratulated
+        ):
             self.player_congratulated = True
             self.text_particles.append(
                 FadingOutText(self.congrats_surf.copy(), self.congrats_pos, 3, 230)
@@ -323,12 +333,15 @@ class BeachStage(UIStage):
             self.transition.fade_speed /= 10
 
             with open(DATA_PATH, "w") as f:
-                settings = json.dumps({
-                    "run_intro": False,
-                    "game_complete": True,
-                }, indent=4)
+                settings = json.dumps(
+                    {
+                        "run_intro": False,
+                        "game_complete": True,
+                    },
+                    indent=4,
+                )
                 f.write(settings)
-            
+
             pygame.mixer.music.fadeout(11000)
 
 

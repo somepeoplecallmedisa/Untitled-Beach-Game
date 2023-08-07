@@ -4,10 +4,10 @@ import pygame
 
 from engine._types import EventInfo
 from engine.animations import FadeTransition
+from engine.asset_loader import load_assets
 from engine.enums import GameStates
 from engine.utils import render_outline_text
 from src.common import DATA_PATH, FADE_SPEED, FONT_PATH, HEIGHT, WIDTH
-from engine.asset_loader import load_assets
 
 pygame.font.init()
 

@@ -5,10 +5,10 @@ import pygame
 from engine._types import EventInfo
 from engine.enums import GameStates
 from src.common import HEIGHT, WIDTH
+from src.states.credits import CreditsState
 from src.states.game_state import GameState
 from src.states.intro import IntroState
 from src.states.menu import MenuState
-from src.states.credits import CreditsState
 
 
 class Game:
