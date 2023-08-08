@@ -34,7 +34,7 @@ class Player:
         self.vel = pygame.Vector2()
         self.speed = 4
         self.gravity = 3.5
-        self.jump_height = 15
+        self.jump_height = 15.5
         self.jumping = False
         self.alive = True
 
