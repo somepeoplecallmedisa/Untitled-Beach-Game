@@ -11,8 +11,7 @@ from engine.camera import Camera
 from engine.enums import GameStates
 from engine.particles import FadingOutText
 from engine.tilemap import TileLayerMap
-from engine.utils import (get_neighboring_tiles, pixel_to_tile,
-                          render_outline_text)
+from engine.utils import get_neighboring_tiles, pixel_to_tile, render_outline_text
 from src.common import DATA_PATH, FADE_SPEED, FONT_PATH, HEIGHT, WIDTH
 from src.npc import ItemNPC, QuestGiverNPC, QuestReceiverNPC, TalkingNPC
 from src.player import Player

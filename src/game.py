@@ -59,4 +59,6 @@ class Game:
                 self._exit()
 
             pygame.display.flip()
-            pygame.display.set_caption(f"Untitled Beach Game | FPS: {self.clock.get_fps():.0f}")
+            pygame.display.set_caption(
+                f"Untitled Beach Game | FPS: {self.clock.get_fps():.0f}"
+            )
